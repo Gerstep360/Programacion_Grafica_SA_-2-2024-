@@ -32,6 +32,13 @@ namespace OpenTK_Tarea_1.Controlador
                 direction.X -= 1;
             if (_window.KeyboardState.IsKeyDown(Keys.D))
                 direction.X += 1;
+            if (_window.KeyboardState.IsKeyDown(Keys.F))
+            {
+                Screenshot.SaveScreenshot(_window);
+                Console.WriteLine("Se ha guardado la Caputura de Pantalla");
+            }
+                
+                
 
             _camera.ProcessKeyboardInput(direction, (float)e.Time);
 

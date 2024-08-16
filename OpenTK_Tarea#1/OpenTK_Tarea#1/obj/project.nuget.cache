@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "yPeNQYk1VhGwD9cJr4t2MJy6M4HPSLBb+XSVWIBXN12SbXn413M7/XPkA45URoUpyUDNT1hWDCV1FUUoFhlR5A==",
+  "dgSpecHash": "KED9xu8IS98/hXp8R1PCTQEqpxGmnpziMEqfGYO8JezyCVd7HJT8y2U1JSVT7GQ44mFIOc5K7C+nc7Lr/BJb+w==",
   "success": true,
   "projectFilePath": "C:\\Users\\Gerstep\\Documents\\Universidad\\Electivas\\Programacion Grafica\\OpenTK_Tarea#1\\OpenTK_Tarea#1\\OpenTK_Tarea#1.csproj",
   "expectedPackageFiles": [
@@ -15,6 +15,7 @@
     "C:\\Users\\Gerstep\\.nuget\\packages\\opentk.windowing.common\\4.8.2\\opentk.windowing.common.4.8.2.nupkg.sha512",
     "C:\\Users\\Gerstep\\.nuget\\packages\\opentk.windowing.desktop\\4.8.2\\opentk.windowing.desktop.4.8.2.nupkg.sha512",
     "C:\\Users\\Gerstep\\.nuget\\packages\\opentk.windowing.graphicslibraryframework\\4.8.2\\opentk.windowing.graphicslibraryframework.4.8.2.nupkg.sha512",
+    "C:\\Users\\Gerstep\\.nuget\\packages\\sixlabors.imagesharp\\3.1.5\\sixlabors.imagesharp.3.1.5.nupkg.sha512",
     "C:\\Users\\Gerstep\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512"
   ],
   "logs": []

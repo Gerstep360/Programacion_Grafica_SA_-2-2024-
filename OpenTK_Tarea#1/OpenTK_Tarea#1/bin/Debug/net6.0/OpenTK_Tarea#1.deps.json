@@ -8,7 +8,8 @@
     ".NETCoreApp,Version=v6.0": {
       "OpenTK_Tarea#1/1.0.0": {
         "dependencies": {
-          "OpenTK": "4.8.2"
+          "OpenTK": "4.8.2",
+          "SixLabors.ImageSharp": "3.1.5"
         },
         "runtime": {
           "OpenTK_Tarea#1.dll": {}
@@ -158,6 +159,14 @@
           }
         }
       },
+      "SixLabors.ImageSharp/3.1.5": {
+        "runtime": {
+          "lib/net6.0/SixLabors.ImageSharp.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.1.5.0"
+          }
+        }
+      },
       "System.Runtime.CompilerServices.Unsafe/5.0.0": {}
     }
   },
@@ -243,6 +252,13 @@
       "sha512": "sha512-o50PgKL8G0Pqs7Lo7hu1ru+5X5l03aht5jaeik7McXFgVaBJzMLhMhZkiferx4bbcC9Rq597BOknDwqE/bsLOw==",
       "path": "opentk.windowing.graphicslibraryframework/4.8.2",
       "hashPath": "opentk.windowing.graphicslibraryframework.4.8.2.nupkg.sha512"
+    },
+    "SixLabors.ImageSharp/3.1.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-lNtlq7dSI/QEbYey+A0xn48z5w4XHSffF8222cC4F4YwTXfEImuiBavQcWjr49LThT/pRmtWJRcqA/PlL+eJ6g==",
+      "path": "sixlabors.imagesharp/3.1.5",
+      "hashPath": "sixlabors.imagesharp.3.1.5.nupkg.sha512"
     },
     "System.Runtime.CompilerServices.Unsafe/5.0.0": {
       "type": "package",
