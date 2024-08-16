@@ -3,4 +3,4 @@ En este repositorio se encuentra todos los proyectos y tareas que el Ing. Peinad
 Por el momento se encontra este repositorio los siguientes proyectos:
 - Crear un modelo 3D de una figura "T".
   ## Capturas de Pantalla
-  ![Screenshot](OpenTK_Tarea#1/Figura-T.png)
+  ![Screenshot](Imagenes/Figura_T.jpg)
