@@ -23,7 +23,6 @@ namespace OpenTK_Tarea_1.Controlador
             // Cargar los datos de píxeles en una imagen usando ImageSharp
             using (var image = Image.LoadPixelData<Bgra32>(pixels, width, height))
             {
-                // Voltear verticalmente y luego rotar 90 grados
                 image.Mutate(x => x.Flip(FlipMode.Vertical));
 
                 // Guardar la imagen en formato JPEG

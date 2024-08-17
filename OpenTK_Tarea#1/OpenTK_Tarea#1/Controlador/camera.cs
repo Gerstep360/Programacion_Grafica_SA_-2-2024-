@@ -12,7 +12,7 @@ namespace OpenTK_Tarea_1.Controlador
         private Vector3 _front = -Vector3.UnitZ; // Dirección inicial de la cámara
         private Vector3 _up = Vector3.UnitY;     // Dirección hacia arriba
         private Vector3 _right = Vector3.UnitX;  // Dirección a la derecha
-
+        public bool bloquear_raton=true;
         public Vector3 Position { get; private set; } // Posición de la cámara
         public float Yaw { get; private set; } = -90.0f; // Rotación horizontal
         public float Pitch { get; private set; } = 0.0f; // Rotación vertical
@@ -31,29 +31,55 @@ namespace OpenTK_Tarea_1.Controlador
         {
             float velocity = Speed * deltaTime;
             if (direction.Z == 1) // Mover hacia adelante
+            {
                 Position += _front * velocity;
+            }
+                
             if (direction.Z == -1) // Mover hacia atrás
+            {
                 Position -= _front * velocity;
+            }
+                
             if (direction.X == 1) // Mover hacia la derecha
+            {
                 Position += _right * velocity;
+            }
+                
             if (direction.X == -1) // Mover hacia la izquierda
+            {
                 Position -= _right * velocity;
+            }
+                
+            if(direction.Y == 1)
+            {
+                Position += _up * velocity;
+            }
+                
+            if (direction.Y == -1)
+            {
+                Position -= _up * velocity;
+            }
+                
         }
 
         public void ProcessMouseMovement(float xOffset, float yOffset, bool constrainPitch = true)
         {
-            xOffset *= Sensitivity;
-            yOffset *= Sensitivity;
-
-            Yaw += xOffset;
-            Pitch -= yOffset; // Invertir el yOffset porque las coordenadas Y en la ventana aumentan hacia abajo
-
-            if (constrainPitch)
+            if (!bloquear_raton)
             {
-                Pitch = MathHelper.Clamp(Pitch, -89.0f, 89.0f);
-            }
+                xOffset *= Sensitivity;
+                yOffset *= Sensitivity;
 
-            UpdateCameraVectors();
+                Yaw += xOffset;
+                Pitch -= yOffset; // Invertir el yOffset porque las coordenadas Y en la ventana aumentan hacia abajo
+
+                if (constrainPitch)
+                {
+                    Pitch = MathHelper.Clamp(Pitch, -89.0f, 89.0f);
+                }
+
+                UpdateCameraVectors();
+            }
+            
         }
 
         private void UpdateCameraVectors()

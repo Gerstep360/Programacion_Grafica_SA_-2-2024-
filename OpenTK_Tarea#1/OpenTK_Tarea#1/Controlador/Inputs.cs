@@ -18,7 +18,7 @@ namespace OpenTK_Tarea_1.Controlador
         {
             _camera = camera;
             _window = window;
-            _window.CursorState = CursorState.Grabbed; // Bloquear el cursor dentro de la ventana
+            
         }
         public void HandleInput(FrameEventArgs e)
         {
@@ -37,8 +37,22 @@ namespace OpenTK_Tarea_1.Controlador
                 Screenshot.SaveScreenshot(_window);
                 Console.WriteLine("Se ha guardado la Caputura de Pantalla");
             }
+            if (_window.KeyboardState.IsKeyDown(Keys.LeftControl))
+                direction.Y -= 1;
+            if (_window.KeyboardState.IsKeyDown(Keys.LeftShift))
+                direction.Y += 1;
+            if (_window.KeyboardState.IsKeyDown(Keys.Q))
+            {
+                _window.CursorState = CursorState.Grabbed; // Bloquear el cursor dentro de la ventana
+                _camera.bloquear_raton = false;
+            }
                 
-                
+            if (_window.KeyboardState.IsKeyDown(Keys.E))
+            {
+                _window.CursorState = CursorState.Normal;
+                _camera.bloquear_raton=true;
+            }
+               
 
             _camera.ProcessKeyboardInput(direction, (float)e.Time);
 
