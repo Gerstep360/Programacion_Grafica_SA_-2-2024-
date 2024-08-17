@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Gerstep\\Documents\\Universidad\\Electivas\\Programacion Grafica\\OpenTK_Tarea#1\\OpenTK_Tarea#1\\OpenTK_Tarea#1.csproj": {}
+    "C:\\Users\\Gerstep\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#1\\OpenTK_Tarea#1\\OpenTK_Tarea#1.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Gerstep\\Documents\\Universidad\\Electivas\\Programacion Grafica\\OpenTK_Tarea#1\\OpenTK_Tarea#1\\OpenTK_Tarea#1.csproj": {
+    "C:\\Users\\Gerstep\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#1\\OpenTK_Tarea#1\\OpenTK_Tarea#1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Gerstep\\Documents\\Universidad\\Electivas\\Programacion Grafica\\OpenTK_Tarea#1\\OpenTK_Tarea#1\\OpenTK_Tarea#1.csproj",
+        "projectUniqueName": "C:\\Users\\Gerstep\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#1\\OpenTK_Tarea#1\\OpenTK_Tarea#1.csproj",
         "projectName": "OpenTK_Tarea#1",
-        "projectPath": "C:\\Users\\Gerstep\\Documents\\Universidad\\Electivas\\Programacion Grafica\\OpenTK_Tarea#1\\OpenTK_Tarea#1\\OpenTK_Tarea#1.csproj",
+        "projectPath": "C:\\Users\\Gerstep\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#1\\OpenTK_Tarea#1\\OpenTK_Tarea#1.csproj",
         "packagesPath": "C:\\Users\\Gerstep\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Gerstep\\Documents\\Universidad\\Electivas\\Programacion Grafica\\OpenTK_Tarea#1\\OpenTK_Tarea#1\\obj\\",
+        "outputPath": "C:\\Users\\Gerstep\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#1\\OpenTK_Tarea#1\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Gerstep\\AppData\\Roaming\\NuGet\\NuGet.Config",

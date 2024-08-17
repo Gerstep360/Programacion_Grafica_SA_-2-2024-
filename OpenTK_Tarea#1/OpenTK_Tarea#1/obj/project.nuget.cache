@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "KED9xu8IS98/hXp8R1PCTQEqpxGmnpziMEqfGYO8JezyCVd7HJT8y2U1JSVT7GQ44mFIOc5K7C+nc7Lr/BJb+w==",
+  "dgSpecHash": "7Bm+zt9snoTPIwApmeb2DhZbNtF+XIGPTDqqUY1UkSnmI+M5xcVtrKdyK2MX2yzdL43tjYXvtjCgWJMisqXZiQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Gerstep\\Documents\\Universidad\\Electivas\\Programacion Grafica\\OpenTK_Tarea#1\\OpenTK_Tarea#1\\OpenTK_Tarea#1.csproj",
+  "projectFilePath": "C:\\Users\\Gerstep\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#1\\OpenTK_Tarea#1\\OpenTK_Tarea#1.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Gerstep\\.nuget\\packages\\opentk\\4.8.2\\opentk.4.8.2.nupkg.sha512",
     "C:\\Users\\Gerstep\\.nuget\\packages\\opentk.audio.openal\\4.8.2\\opentk.audio.openal.4.8.2.nupkg.sha512",
