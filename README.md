@@ -7,4 +7,4 @@ Por el momento se encontra este repositorio los siguientes proyectos:
 
   -  ***Tarea#2: Crear la Clase "Objeto" donde estará los vertices de la Figura "T" y la clase Renderización.***
   ## Capturas de Pantalla
-  ![Screenshot](Imagenes/Figura_T.png)
+  ![Screenshot](Imagenes/Figura_T_2.png)
