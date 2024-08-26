@@ -4,7 +4,7 @@ En este repositorio se encuentran todos los proyectos y tareas asignados por el 
 
 ## Proyectos Incluidos
 
-### [Tarea #1: Creación de la clase "Game" y modelado 3D de una figura "T"](OpenTK_Tarea#1/)
+### [Tarea #1: Creación de la clase "Game" y modelado 3D de una figura "T"](OpenTK_Tarea%231/)
 
 - **Descripción:** En esta primera tarea, se implementó la base de un entorno 3D usando OpenTK, con la clase `Game` como eje principal. Esta clase gestiona la creación de una ventana gráfica, la configuración de OpenGL, el renderizado del modelo 3D de una figura en forma de "T", y la manipulación de la cámara.
 
@@ -29,7 +29,7 @@ En este repositorio se encuentran todos los proyectos y tareas asignados por el 
 - **Captura de Pantalla:**
   ![Screenshot](Imagenes/Figura_T.png)
 
-### [Tarea #2: Refactorización de la clase "Game" y encapsulación en la clase "Objeto"](OpenTK_Tarea#2/)
+### [Tarea #2: Refactorización de la clase "Game" y encapsulación en la clase "Objeto"](OpenTK_Tarea%232/)
 
 - **Descripción:** En esta segunda tarea, se llevó a cabo una refactorización significativa del código desarrollado en la Tarea #1, con el objetivo de mejorar la modularización y la mantenibilidad. Se introdujeron nuevas clases para separar las responsabilidades y simplificar la gestión del proyecto.
 
@@ -55,7 +55,7 @@ En este repositorio se encuentran todos los proyectos y tareas asignados por el 
 
 - **Captura de Pantalla:**
   ![Screenshot](Imagenes/Figura_T_2.png)
-### [Tarea #3: Modularización completa y simplificación de la clase "Game"](OpenTK_Tarea#3/)
+### [Tarea #3: Modularización completa y simplificación de la clase "Game"](OpenTK_Tarea%233/)
 
 - **Descripción:** En esta tercera tarea, se implementó una modularización completa del proyecto, simplificando la clase `Game` y distribuyendo las responsabilidades entre varias clases especializadas. El objetivo fue mejorar la estructura del código, facilitando su mantenibilidad y ampliación.
 
