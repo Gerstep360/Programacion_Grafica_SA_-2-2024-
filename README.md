@@ -1,4 +1,4 @@
-# P# Programación Gráfica - SA (FICCT)
+# Programación Gráfica - SA (FICCT)
 
 En este repositorio se encuentran todos los proyectos y tareas asignados por el Ing. Peinado en el curso de Programación Gráfica. A continuación, se describen los proyectos actuales incluidos en el repositorio:
 
