@@ -263,4 +263,4 @@ Un **punto** (o vértice) en el espacio 3D tiene una **posición** y un **color*
 - **Refactorización**: Divide el código en partes claras y bien organizadas, mejorando su mantenimiento y escalabilidad.
 
 ## **Captura de Pantalla:**
-  ![Vista previa del video](Imagenes\Tarea_4.gif)
+  ![Vista previa del Gif](Imagenes/Tarea_4.gif)
