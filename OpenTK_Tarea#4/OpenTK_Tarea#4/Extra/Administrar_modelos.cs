@@ -10,14 +10,14 @@ namespace OpenTK_Tarea_4.Extra
         private Renderización _renderizacion;
         private Escenario _escenario;
         private Serializador _serializador;
-        private Administrador_Animaciones _adminAnimaciones;
+
         private int _index;
 
-        public Administrar_modelos(Renderización render, Escenario escena, Administrador_Animaciones anim)
+        public Administrar_modelos(Renderización render, Escenario escena)
         {
             _renderizacion = render;
             _escenario = escena;
-            _adminAnimaciones = anim;
+            
             _serializador = new Serializador();
             _index = 0;
         }
@@ -27,15 +27,15 @@ namespace OpenTK_Tarea_4.Extra
             for (int i = 0; i < cantidad; i++)
             {
                 Vector3 posicion = new Vector3(i + 1f, i + 1f, i + 1f);
-                Objeto objetoT = new Objeto(posicion, Vector3.Zero, Vector3.One);
-                objetoT.ConfigurarVertices_LogoNVIDIA_Inclinado();
+                Vector3 rotacion = Vector3.Zero;
+                Vector3 escala = Vector3.One;
+               // Objeto objetoT = ConstruirTelevisor(posicion, rotacion, escala);
 
-                string nombreObjeto = $"Nvidia_RTX_{i}";
-                _escenario.AgregarObjeto(nombreObjeto, objetoT);
+                string nombreObjeto = $"T_{i}";
+               // _escenario.AgregarObjeto(nombreObjeto, objetoT);
+                //_adminAnimaciones.AgregarAnimacion(objetoT, objetoT.Rotacion=new Vector3(0f,0f,0f), new Vector3(1000f,1000f,1000f),0.01f,InterpoTK.TipoInterpolacion.Quintica,Animación.Tipo_Animacion.Rotacion );
                 Console.WriteLine($"Se creó en memoria: {nombreObjeto}");
-
-                _adminAnimaciones.AgregarAnimacion(objetoT, new Vector3(i + 0, i + 0, i / -5), 0.01f, InterpoTK.TipoInterpolacion.Cuartica);
-                _escenario.actualizar_objeto(_renderizacion, objetoT);
+               // _escenario.actualizar_objeto(_renderizacion, objetoT);
             }
         }
 

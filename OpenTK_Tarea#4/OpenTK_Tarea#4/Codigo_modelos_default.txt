@@ -1,0 +1,206 @@
+        public static Objeto ConstruirModeloT(Vector3 posicion, Vector3 rotacion, Vector3 escala)
+        {
+            Objeto objeto = new Objeto(posicion, rotacion, escala);
+
+            // Parte horizontal (la parte superior de la T)
+            var puntosHorizontal = new Dictionary<string, Punto>
+    {
+        { "P0", new Punto(new Vector3(-0.5f,  0.3f,  0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P1", new Punto(new Vector3(0.5f,  0.3f,  0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P2", new Punto(new Vector3(0.5f,  0.1f,  0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P3", new Punto(new Vector3(-0.5f,  0.1f,  0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P4", new Punto(new Vector3(-0.5f,  0.3f, -0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P5", new Punto(new Vector3(0.5f,  0.3f, -0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P6", new Punto(new Vector3(0.5f,  0.1f, -0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P7", new Punto(new Vector3(-0.5f,  0.1f, -0.1f), new Vector3(0.34f, 0.09f, 0.27f)) }
+    };
+
+            // ÍNDICES PARA CERRAR TODAS LAS CARAS DEL POLÍGONO
+            uint[] indicesHorizontal = {
+        // Frente y atrás
+        0, 1, 2, 2, 3, 0,  // Frente
+        4, 5, 6, 6, 7, 4,  // Atrás
+
+        // Lados laterales
+        0, 3, 7, 7, 4, 0,  // Lado izquierdo
+        1, 2, 6, 6, 5, 1,  // Lado derecho
+
+        // Lados superior e inferior
+        0, 1, 5, 5, 4, 0,  // Superior
+        3, 2, 6, 6, 7, 3   // Inferior
+    };
+
+            var poligonoHorizontal = new Poligono(puntosHorizontal, indicesHorizontal);
+            var parteHorizontal = new Parte(new Dictionary<string, Poligono> { { "PoligonoHorizontal", poligonoHorizontal } });
+            objeto.AgregarParte("ParteHorizontal", parteHorizontal);
+
+            // Parte vertical (el "palo" de la T)
+            var puntosVertical = new Dictionary<string, Punto>
+    {
+        { "P0", new Punto(new Vector3(-0.2f,  0.1f,  0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P1", new Punto(new Vector3(0.2f,  0.1f,  0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P2", new Punto(new Vector3(0.2f, -0.5f,  0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P3", new Punto(new Vector3(-0.2f, -0.5f,  0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P4", new Punto(new Vector3(-0.2f,  0.1f, -0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P5", new Punto(new Vector3(0.2f,  0.1f, -0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P6", new Punto(new Vector3(0.2f, -0.5f, -0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P7", new Punto(new Vector3(-0.2f, -0.5f, -0.1f), new Vector3(0.34f, 0.09f, 0.27f)) }
+    };
+
+            // ÍNDICES PARA CERRAR TODAS LAS CARAS DEL POLÍGONO VERTICAL
+            uint[] indicesVertical = {
+        // Frente y atrás
+        0, 1, 2, 2, 3, 0,  // Frente
+        4, 5, 6, 6, 7, 4,  // Atrás
+
+        // Lados laterales
+        0, 3, 7, 7, 4, 0,  // Lado izquierdo
+        1, 2, 6, 6, 5, 1,  // Lado derecho
+
+        // Lados superior e inferior
+        0, 1, 5, 5, 4, 0,  // Superior
+        3, 2, 6, 6, 7, 3   // Inferior
+    };
+
+            var poligonoVertical = new Poligono(puntosVertical, indicesVertical);
+            var parteVertical = new Parte(new Dictionary<string, Poligono> { { "PoligonoVertical", poligonoVertical } });
+            objeto.AgregarParte("ParteVertical", parteVertical);
+
+            return objeto;
+        }
+
+
+
+        public static Objeto ConstruirTelevisor(Vector3 posicion, Vector3 rotacion, Vector3 escala)
+        {
+            Objeto objeto = new Objeto(posicion, rotacion, escala);
+
+            // Pantalla del televisor (un cubo delgado)
+            var puntosPantalla = new Dictionary<string, Punto>
+    {
+        { "P0", new Punto(new Vector3(-0.6f,  0.4f,  0.02f), new Vector3(0.0f, 0.0f, 0.0f)) },  // Esquina superior izquierda frontal
+        { "P1", new Punto(new Vector3( 0.6f,  0.4f,  0.02f), new Vector3(0.0f, 0.0f, 0.0f)) },  // Esquina superior derecha frontal
+        { "P2", new Punto(new Vector3( 0.6f, -0.4f,  0.02f), new Vector3(0.0f, 0.0f, 0.0f)) },  // Esquina inferior derecha frontal
+        { "P3", new Punto(new Vector3(-0.6f, -0.4f,  0.02f), new Vector3(0.0f, 0.0f, 0.0f)) },  // Esquina inferior izquierda frontal
+
+        { "P4", new Punto(new Vector3(-0.6f,  0.4f, -0.02f), new Vector3(0.0f, 0.0f, 0.0f)) },  // Esquina superior izquierda trasera
+        { "P5", new Punto(new Vector3( 0.6f,  0.4f, -0.02f), new Vector3(0.0f, 0.0f, 0.0f)) },  // Esquina superior derecha trasera
+        { "P6", new Punto(new Vector3( 0.6f, -0.4f, -0.02f), new Vector3(0.0f, 0.0f, 0.0f)) },  // Esquina inferior derecha trasera
+        { "P7", new Punto(new Vector3(-0.6f, -0.4f, -0.02f), new Vector3(0.0f, 0.0f, 0.0f)) }   // Esquina inferior izquierda trasera
+    };
+
+            uint[] indicesPantalla = {
+        0, 1, 2, 2, 3, 0,  // Frente
+        4, 5, 6, 6, 7, 4,  // Atrás
+        0, 3, 7, 7, 4, 0,  // Izquierda
+        1, 2, 6, 6, 5, 1,  // Derecha
+        0, 1, 5, 5, 4, 0,  // Superior
+        3, 2, 6, 6, 7, 3   // Inferior
+    };
+
+            var poligonoPantalla = new Poligono(puntosPantalla, indicesPantalla);
+            var partePantalla = new Parte(new Dictionary<string, Poligono> { { "PoligonoPantalla", poligonoPantalla } });
+            objeto.AgregarParte("PartePantalla", partePantalla);
+
+            // Base del televisor (un cubo pequeño)
+            var puntosBase = new Dictionary<string, Punto>
+    {
+        { "P0", new Punto(new Vector3(-0.2f, -0.5f,  0.1f), new Vector3(0.2f, 0.2f, 0.2f)) },
+        { "P1", new Punto(new Vector3( 0.2f, -0.5f,  0.1f), new Vector3(0.2f, 0.2f, 0.2f)) },
+        { "P2", new Punto(new Vector3( 0.2f, -0.7f,  0.1f), new Vector3(0.2f, 0.2f, 0.2f)) },
+        { "P3", new Punto(new Vector3(-0.2f, -0.7f,  0.1f), new Vector3(0.2f, 0.2f, 0.2f)) },
+
+        { "P4", new Punto(new Vector3(-0.2f, -0.5f, -0.1f), new Vector3(0.2f, 0.2f, 0.2f)) },
+        { "P5", new Punto(new Vector3( 0.2f, -0.5f, -0.1f), new Vector3(0.2f, 0.2f, 0.2f)) },
+        { "P6", new Punto(new Vector3( 0.2f, -0.7f, -0.1f), new Vector3(0.2f, 0.2f, 0.2f)) },
+        { "P7", new Punto(new Vector3(-0.2f, -0.7f, -0.1f), new Vector3(0.2f, 0.2f, 0.2f)) }
+    };
+
+            uint[] indicesBase = {
+        0, 1, 2, 2, 3, 0,  // Frente
+        4, 5, 6, 6, 7, 4,  // Atrás
+        0, 3, 7, 7, 4, 0,  // Izquierda
+        1, 2, 6, 6, 5, 1,  // Derecha
+        0, 1, 5, 5, 4, 0,  // Superior
+        3, 2, 6, 6, 7, 3   // Inferior
+    };
+
+            var poligonoBase = new Poligono(puntosBase, indicesBase);
+            var parteBase = new Parte(new Dictionary<string, Poligono> { { "PoligonoBase", poligonoBase } });
+            objeto.AgregarParte("ParteBase", parteBase);
+
+            // Soporte del televisor (una barra delgada que conecta la pantalla con la base)
+            var puntosSoporte = new Dictionary<string, Punto>
+    {
+        { "P0", new Punto(new Vector3(-0.05f, -0.4f,  0.05f), new Vector3(0.1f, 0.1f, 0.1f)) },  // Esquina superior izquierda frontal
+        { "P1", new Punto(new Vector3( 0.05f, -0.4f,  0.05f), new Vector3(0.1f, 0.1f, 0.1f)) },  // Esquina superior derecha frontal
+        { "P2", new Punto(new Vector3( 0.05f, -0.5f,  0.05f), new Vector3(0.1f, 0.1f, 0.1f)) },  // Esquina inferior derecha frontal
+        { "P3", new Punto(new Vector3(-0.05f, -0.5f,  0.05f), new Vector3(0.1f, 0.1f, 0.1f)) },  // Esquina inferior izquierda frontal
+
+        { "P4", new Punto(new Vector3(-0.05f, -0.4f, -0.05f), new Vector3(0.1f, 0.1f, 0.1f)) },  // Esquina superior izquierda trasera
+        { "P5", new Punto(new Vector3( 0.05f, -0.4f, -0.05f), new Vector3(0.1f, 0.1f, 0.1f)) },  // Esquina superior derecha trasera
+        { "P6", new Punto(new Vector3( 0.05f, -0.5f, -0.05f), new Vector3(0.1f, 0.1f, 0.1f)) },  // Esquina inferior derecha trasera
+        { "P7", new Punto(new Vector3(-0.05f, -0.5f, -0.05f), new Vector3(0.1f, 0.1f, 0.1f)) }   // Esquina inferior izquierda trasera
+    };
+
+            uint[] indicesSoporte = {
+        0, 1, 2, 2, 3, 0,  // Frente
+        4, 5, 6, 6, 7, 4,  // Atrás
+        0, 3, 7, 7, 4, 0,  // Izquierda
+        1, 2, 6, 6, 5, 1,  // Derecha
+        0, 1, 5, 5, 4, 0,  // Superior
+        3, 2, 6, 6, 7, 3   // Inferior
+    };
+
+            var poligonoSoporte = new Poligono(puntosSoporte, indicesSoporte);
+            var parteSoporte = new Parte(new Dictionary<string, Poligono> { { "PoligonoSoporte", poligonoSoporte } });
+            objeto.AgregarParte("ParteSoporte", parteSoporte);
+
+            return objeto;
+        }
+
+
+
+        public static Objeto ConstruirCubo(Vector3 posicion, Vector3 rotacion, Vector3 escala)
+        {
+            Objeto objeto = new Objeto(posicion, rotacion, escala);
+
+            // Definir los puntos del cubo
+            var puntosCubo = new Dictionary<string, Punto>
+    {
+        { "P0", new Punto(new Vector3(-0.5f, -0.5f,  0.5f), new Vector3(1.0f, 0.0f, 0.0f)) }, // Rojo
+        { "P1", new Punto(new Vector3( 0.5f, -0.5f,  0.5f), new Vector3(0.0f, 1.0f, 0.0f)) }, // Verde
+        { "P2", new Punto(new Vector3( 0.5f,  0.5f,  0.5f), new Vector3(0.0f, 0.0f, 1.0f)) }, // Azul
+        { "P3", new Punto(new Vector3(-0.5f,  0.5f,  0.5f), new Vector3(1.0f, 1.0f, 0.0f)) }, // Amarillo
+        { "P4", new Punto(new Vector3(-0.5f, -0.5f, -0.5f), new Vector3(1.0f, 0.0f, 1.0f)) }, // Magenta
+        { "P5", new Punto(new Vector3( 0.5f, -0.5f, -0.5f), new Vector3(0.0f, 1.0f, 1.0f)) }, // Cian
+        { "P6", new Punto(new Vector3( 0.5f,  0.5f, -0.5f), new Vector3(0.5f, 0.5f, 0.5f)) }, // Gris
+        { "P7", new Punto(new Vector3(-0.5f,  0.5f, -0.5f), new Vector3(0.3f, 0.3f, 0.3f)) }  // Gris oscuro
+    };
+
+            // ÍNDICES para definir las caras del cubo (6 caras, 2 triángulos por cara, 12 triángulos en total)
+            uint[] indicesCubo = {
+        // Cara frontal
+        0, 1, 2, 2, 3, 0,
+        // Cara trasera
+        4, 5, 6, 6, 7, 4,
+        // Cara izquierda
+        0, 3, 7, 7, 4, 0,
+        // Cara derecha
+        1, 2, 6, 6, 5, 1,
+        // Cara superior
+        3, 2, 6, 6, 7, 3,
+        // Cara inferior
+        0, 1, 5, 5, 4, 0
+    };
+
+            // Crear un polígono y una parte para el cubo
+            var poligonoCubo = new Poligono(puntosCubo, indicesCubo);
+            var parteCubo = new Parte(new Dictionary<string, Poligono> { { "PoligonoCubo", poligonoCubo } });
+
+            // Agregar la parte al objeto
+            objeto.AgregarParte("ParteCubo", parteCubo);
+
+            return objeto;
+        }
+

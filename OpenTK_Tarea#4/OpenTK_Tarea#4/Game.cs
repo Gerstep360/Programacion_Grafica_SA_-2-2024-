@@ -24,33 +24,34 @@ namespace OpenTK_Tarea_4
                ClientSize = new Vector2i(width, height),
                Title = title,
                WindowBorder = WindowBorder.Resizable,
+
+               
            })
         {
             VSync = VSyncMode.On;
 
             _camera = new camera(new Vector3(0, 2, 10));
-            _escenario = new Escenario();
+            _animaciones = new Administrador_Animaciones();
+            _escenario = new Escenario(_animaciones);
 
             _shader = new Shader();
             _renderizacion = new Renderización(_shader);
-            _animaciones = new Administrador_Animaciones();
-            _modelos = new Administrar_modelos(_renderizacion, _escenario, _animaciones);
-
+            _modelos = new Administrar_modelos(_renderizacion, _escenario);
             _input = new Inputs(_camera, this, _modelos);
             // Crear y configurar objetos
-            _modelos.CrearModelos(4);
+           // _modelos.CrearModelos(4);
             isLoaded = true;
+            // Inicializar DearImGui
+
         }
 
-        
+
 
         protected override void OnLoad()
         {
             base.OnLoad();
             GL.ClearColor(14 / 255.0f, 102 / 255.0f, 85 / 255.0f, 1.0f);
             GL.Enable(EnableCap.DepthTest);
-
-            
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -68,7 +69,7 @@ namespace OpenTK_Tarea_4
             _shader.SetMatrix4("projection", projection);
 
             _escenario.DibujarEscenario(_renderizacion, view, projection);
-
+            //_imguiController.RenderDrawData(ImGui.GetDrawData());
             SwapBuffers();
         }
 
@@ -84,6 +85,7 @@ namespace OpenTK_Tarea_4
         {
             base.OnResize(e);
             GL.Viewport(0, 0, Size.X, Size.Y);
+            //_imguiController.WindowResized(ClientSize.X, ClientSize.Y);
         }
 
     }

@@ -7,9 +7,9 @@ namespace OpenTK_Tarea_4.Extra
         private List<Animación> _animaciones = new List<Animación>();
 
         // Método para agregar animaciones a un objeto
-        public void AgregarAnimacion(Objeto objeto, Vector3 posicionFinal, float velocidad, InterpoTK.TipoInterpolacion tipo)
+        public void AgregarAnimacion(Objeto objeto, Vector3 inicio, Vector3 final, float velocidad, InterpoTK.TipoInterpolacion tipo, Animación.Tipo_Animacion anim)
         {
-            var animacion = new Animación(objeto, posicionFinal, velocidad, tipo);
+            var animacion = new Animación(objeto, inicio, final, velocidad, tipo, anim);
             _animaciones.Add(animacion);
         }
 

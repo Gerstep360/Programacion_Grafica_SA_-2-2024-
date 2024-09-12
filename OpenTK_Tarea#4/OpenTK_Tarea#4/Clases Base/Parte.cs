@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using OpenTK.Mathematics;
 
 namespace OpenTK_Tarea_4.Clases_Base
 {
     public class Parte : IDisposable
     {
+        [JsonIgnore]
         public Dictionary<string, Poligono> Poligonos { get; } = new Dictionary<string, Poligono>();
         public Vector3 CentroDeMasa { get; private set; }
 

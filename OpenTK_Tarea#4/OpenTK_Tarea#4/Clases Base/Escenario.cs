@@ -1,12 +1,20 @@
 ﻿using System.Collections.Generic;
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
+using OpenTK_Tarea_4.Extra;
 
 namespace OpenTK_Tarea_4.Clases_Base
 {
-    public class Escenario : IDisposable
+    internal class Escenario : IDisposable
     {
         private readonly Dictionary<string, Objeto> _objetos = new Dictionary<string, Objeto>();
         public IReadOnlyDictionary<string, Objeto> Objetos => _objetos;
+        private Administrador_Animaciones _adminAnimaciones;
+
+        public Escenario(Administrador_Animaciones anim)
+        {
+            _adminAnimaciones = anim;
+        }
 
         public void AgregarObjeto(string key, Objeto objeto)
         {
@@ -41,7 +49,8 @@ namespace OpenTK_Tarea_4.Clases_Base
             bool modificado=false;
             if ((n>=1) && (n<=3))
             {
-                Modificar_Tranformaciones(n, objeto);
+                //Modificar_Tranformaciones(n, objeto);
+                Modificar_Animaciones(objeto, n);
                 modificado = true;
             }
             else if (n==4)
@@ -77,6 +86,53 @@ namespace OpenTK_Tarea_4.Clases_Base
                     break;
             }
 
+        }
+        private void Modificar_Animaciones(Objeto objeto, int tipoTransformacion)
+        {
+            Console.WriteLine("Ingrese los valores finales para la animación:");
+
+            Vector3 inicio;
+            Vector3 final;
+
+            // Selecciona la transformación según el tipo (posición, rotación, escala)
+            switch (tipoTransformacion)
+            {
+                case 1: // Modificar Posición
+                    inicio = objeto.Posicion;  // Usa la posición actual como inicio
+                    Console.WriteLine("Posición final:");
+                    final = ModificarVector(inicio);  // Solicita los valores finales
+                    break;
+
+                case 2: // Modificar Rotación
+                    inicio = objeto.Rotacion;  // Usa la rotación actual como inicio
+                    Console.WriteLine("Rotación final:");
+                    final = ModificarVector(inicio);  // Solicita los valores finales
+                    break;
+
+                case 3: // Modificar Escala
+                    inicio = objeto.Escala;  // Usa la escala actual como inicio
+                    Console.WriteLine("Escala final:");
+                    final = ModificarVector(inicio);  // Solicita los valores finales
+                    break;
+
+                default:
+                    throw new InvalidOperationException("Transformación no válida");
+            }
+
+            Console.Write("Velocidad de animación: ");
+            float velocidad = float.Parse(Console.ReadLine());
+
+            // Tipo de animación según el valor de 'tipoTransformacion'
+            Animación.Tipo_Animacion tipoAnimacion = tipoTransformacion switch
+            {
+                1 => Animación.Tipo_Animacion.Posicion,
+                2 => Animación.Tipo_Animacion.Rotacion,
+                3 => Animación.Tipo_Animacion.Escala,
+                _ => throw new InvalidOperationException("Transformación no válida")
+            };
+
+            // Agregar la animación al objeto
+            _adminAnimaciones.AgregarAnimacion(objeto, inicio, final, velocidad, InterpoTK.TipoInterpolacion.Cubica, tipoAnimacion);
         }
         public void Modificar_color_puntos(Objeto obj)
         {
@@ -117,16 +173,13 @@ namespace OpenTK_Tarea_4.Clases_Base
                 renderizacion.RenderizarObjeto(objeto, view, projection);
             }
         }
-        public void actualizar_objeto(Renderización renderizacion,Objeto objeto)
+
+        public void actualizar_objeto(Renderización renderizacion, Objeto objeto)
         {
-            foreach (var parte in objeto.Partes.Values)
-            {
-                foreach (var poligono in parte.Poligonos.Values)
-                {
-                    renderizacion.ConfigurarBuffers(objeto, poligono);
-                }
-            }
+            List<string> atributos = new List<string> { "posicion", "color" };
+            renderizacion.ConfigurarBuffers(objeto, atributos);
         }
+
         public void Dispose()
         {
             // Liberar recursos de todos los objetos en el escenario

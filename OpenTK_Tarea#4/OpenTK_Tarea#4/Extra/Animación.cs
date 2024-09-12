@@ -1,6 +1,7 @@
 ﻿using OpenTK_Tarea_4.Clases_Base;
 using OpenTK.Mathematics;
 using OpenTK_Tarea_4.Extra;
+using System;
 
 namespace OpenTK_Tarea_4.Extra
 {
@@ -12,16 +13,39 @@ namespace OpenTK_Tarea_4.Extra
         private float _progresoInterpolacion;
         private float _velocidadInterpolacion;
         private InterpoTK.TipoInterpolacion _tipoInterpolacion;
-        public Animación(Objeto objeto, Vector3 posicionFinal, float velocidadInterpolacion, InterpoTK.TipoInterpolacion tipoInterpolacion)
+        private Tipo_Animacion _animacion;
+        public enum Tipo_Animacion
+        {
+            Posicion,
+            Rotacion,
+            Escala
+            
+        }
+        public Animación(Objeto objeto,Vector3 inicio, Vector3 final, float velocidadInterpolacion, InterpoTK.TipoInterpolacion tipoInterpolacion, Tipo_Animacion _anim)
         {
             _objeto = objeto;
-            _posicionInicial = objeto.Posicion;  // Obtener la posición inicial del objeto
-            _posicionFinal = posicionFinal;
+            _animacion = _anim;
+            switch (_anim)
+            {
+                case Tipo_Animacion.Posicion:
+                    
+                    _posicionInicial = objeto.Posicion = inicio; ;
+                    break;
+                case Tipo_Animacion.Rotacion:
+                    
+                    _posicionInicial = objeto.Rotacion = inicio;
+                    break;
+                case Tipo_Animacion.Escala:
+                    
+                    _posicionInicial = objeto.Escala = inicio;
+                    break;
+            }
+              // Obtener la posición inicial del objeto
+            _posicionFinal = final;
             _progresoInterpolacion = 0f;
             _velocidadInterpolacion = velocidadInterpolacion;
             _tipoInterpolacion = tipoInterpolacion;
         }
-
         public bool ActualizarInterpolacion()
         {
             // Actualizar progreso de interpolación
@@ -36,7 +60,22 @@ namespace OpenTK_Tarea_4.Extra
             Vector3 posicionActual = InterpoTK.Interpolar(_posicionInicial, _posicionFinal, _progresoInterpolacion, _tipoInterpolacion);
 
             // Actualizamos la posición del objeto
-            _objeto.Posicion = posicionActual;
+            switch (_animacion)
+            {
+                case Tipo_Animacion.Posicion:
+
+                    _objeto.Posicion = posicionActual; ;
+                    break;
+                case Tipo_Animacion.Rotacion:
+
+                    _objeto.Rotacion = posicionActual;
+                    break;
+                case Tipo_Animacion.Escala:
+
+                    _objeto.Escala = posicionActual;
+                    break;
+            }
+            
 
             // Retornar true si la interpolación terminó
             return _progresoInterpolacion >= 1f;

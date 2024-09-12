@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "aXEPojEZ61o=",
+  "dgSpecHash": "e7ugITpnCvU=",
   "success": true,
   "projectFilePath": "C:\\Users\\German\\Source\\Repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\German\\.nuget\\packages\\imgui.net\\1.91.0.1\\imgui.net.1.91.0.1.nupkg.sha512",
+    "C:\\Users\\German\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\German\\.nuget\\packages\\opentk\\4.8.2\\opentk.4.8.2.nupkg.sha512",
     "C:\\Users\\German\\.nuget\\packages\\opentk.audio.openal\\4.8.2\\opentk.audio.openal.4.8.2.nupkg.sha512",
     "C:\\Users\\German\\.nuget\\packages\\opentk.compute\\4.8.2\\opentk.compute.4.8.2.nupkg.sha512",
@@ -17,9 +17,7 @@
     "C:\\Users\\German\\.nuget\\packages\\opentk.windowing.desktop\\4.8.2\\opentk.windowing.desktop.4.8.2.nupkg.sha512",
     "C:\\Users\\German\\.nuget\\packages\\opentk.windowing.graphicslibraryframework\\4.8.2\\opentk.windowing.graphicslibraryframework.4.8.2.nupkg.sha512",
     "C:\\Users\\German\\.nuget\\packages\\sixlabors.imagesharp\\3.1.5\\sixlabors.imagesharp.3.1.5.nupkg.sha512",
-    "C:\\Users\\German\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
-    "C:\\Users\\German\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
-    "C:\\Users\\German\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+    "C:\\Users\\German\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512"
   ],
   "logs": []
 }
