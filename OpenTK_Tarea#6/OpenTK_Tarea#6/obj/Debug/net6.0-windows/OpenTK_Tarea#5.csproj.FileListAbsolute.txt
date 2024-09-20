@@ -1,0 +1,6 @@
+C:\Users\German\Source\Repos\Programacion_Grafica_SA_-2-2024-\OpenTK_Tarea#5\OpenTK_Tarea#5\obj\Debug\net6.0-windows\OpenTK_Tarea#5.csproj.AssemblyReference.cache
+C:\Users\German\Source\Repos\Programacion_Grafica_SA_-2-2024-\OpenTK_Tarea#5\OpenTK_Tarea#5\obj\Debug\net6.0-windows\OpenTK_Tarea#5.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\German\Source\Repos\Programacion_Grafica_SA_-2-2024-\OpenTK_Tarea#5\OpenTK_Tarea#5\obj\Debug\net6.0-windows\OpenTK_Tarea#5.AssemblyInfoInputs.cache
+C:\Users\German\Source\Repos\Programacion_Grafica_SA_-2-2024-\OpenTK_Tarea#5\OpenTK_Tarea#5\obj\Debug\net6.0-windows\OpenTK_Tarea#5.AssemblyInfo.cs
+C:\Users\German\Source\Repos\Programacion_Grafica_SA_-2-2024-\OpenTK_Tarea#5\OpenTK_Tarea#5\obj\Debug\net6.0-windows\OpenTK_Tarea#5.csproj.CoreCompileInputs.cache
+C:\Users\German\Source\Repos\Programacion_Grafica_SA_-2-2024-\OpenTK_Tarea#5\OpenTK_Tarea#5\obj\Debug\net6.0-windows\OpenTK_Tarea#5.sourcelink.json

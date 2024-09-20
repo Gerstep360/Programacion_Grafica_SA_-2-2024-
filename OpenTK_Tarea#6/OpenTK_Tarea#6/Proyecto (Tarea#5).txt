@@ -1,0 +1,1865 @@
+Raiz del proyecto:
+
+program.cs: "// Crear una instancia de la clase Game y ejecutar el juego
+using OpenTK_Tarea_5;
+
+using (Game game = new Game(1920, 1080, "Letra T 3D"))
+{
+    Console.WriteLine("Bienvenido" +
+        "\n" +
+        "Atajos del teclado:" +
+        "\n" +
+        "Q: Bloquear el mouse dentro de la ventana" +
+        "\n" +
+        "E: Desbloquear el mouse" +
+        "\n" +
+        "G: Guardar Modelo 3D" +
+        "\n" +
+        "C: Cargar Modelo 3D" +
+        "\n" +
+        "M: Modificar 3D"+
+        "\n" +
+        "F: Captura de Pantalla"
+        );
+    game.Run();
+    
+}"
+
+Game.cs: "using OpenTK.Graphics.OpenGL4;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.Desktop;
+using OpenTK.Mathematics;
+using OpenTK_Tarea_5.Controlador;
+using OpenTK_Tarea_5.Clases_Base;
+using OpenTK_Tarea_5.Extra;
+using OpenTK.Windowing.GraphicsLibraryFramework;
+namespace OpenTK_Tarea_5
+{
+    internal class Game : GameWindow
+    {
+        private camera _camera;
+        private Inputs _input;
+        private Escenario _escenario;
+        private Renderización _renderizacion;
+        private Shader _shader;
+        private Administrar_modelos _modelos;
+        private Administrador_Animaciones _animaciones;
+        private bool isLoaded = false;
+        public Game(int width, int height, string title)
+           : base(GameWindowSettings.Default, new NativeWindowSettings()
+           {
+               ClientSize = new Vector2i(width, height),
+               Title = title,
+               WindowBorder = WindowBorder.Resizable,
+
+               
+           })
+        {
+            VSync = VSyncMode.On;
+
+            _camera = new camera(new Vector3(0, 2, 10));
+            _animaciones = new Administrador_Animaciones();
+            _escenario = new Escenario(_animaciones);
+
+            _shader = new Shader();
+            _renderizacion = new Renderización(_shader);
+            _modelos = new Administrar_modelos(_renderizacion, _escenario);
+            _input = new Inputs(_camera, this, _modelos);
+            // Crear y configurar objetos
+            _modelos.CrearModelos(4);
+            isLoaded = true;
+            // Inicializar DearImGui
+
+        }
+
+
+
+        protected override void OnLoad()
+        {
+            base.OnLoad();
+            GL.ClearColor(14 / 255.0f, 102 / 255.0f, 85 / 255.0f, 1.0f);
+            GL.Enable(EnableCap.DepthTest);
+            //_escenario.Rotacion = new Vector3(3f, 3f, 3f);
+        }
+
+        protected override void OnRenderFrame(FrameEventArgs e)
+        {
+            base.OnRenderFrame(e);
+            _input.HandleInput(e);
+            _animaciones.ActualizarAnimaciones(isLoaded);       
+            Matrix4 view = _camera.GetViewMatrix();
+            Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45f), Size.X / (float)Size.Y, 0.1f, 100f);
+
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+
+            _shader.Use();
+            _shader.SetMatrix4("view", view);
+            _shader.SetMatrix4("projection", projection);
+
+            _escenario.DibujarEscenario(_renderizacion, view, projection);
+            //_imguiController.RenderDrawData(ImGui.GetDrawData());
+            SwapBuffers();
+        }
+
+        protected override void OnUnload()
+        {
+            base.OnUnload();
+            _escenario.Dispose();  // Liberar recursos de todos los objetos
+            _renderizacion.Dispose();  // Liberar recursos de OpenGL en la clase Renderización
+            _shader.Dispose();  // Liberar recursos del Shader
+        }
+
+        protected override void OnResize(ResizeEventArgs e)
+        {
+            base.OnResize(e);
+            GL.Viewport(0, 0, Size.X, Size.Y);
+            //_imguiController.WindowResized(ClientSize.X, ClientSize.Y);
+        }
+
+    }
+}
+"
+Clases Base:
+
+Shader.cs: "using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
+using System;
+
+namespace OpenTK_Tarea_5.Clases_Base
+{
+    public class Shader : IDisposable
+    {
+        public int Handle { get; private set; }
+
+        public Shader()
+        {
+            // Compilación de shaders
+            int vertexShader = CompileShader(ShaderType.VertexShader, VertexShaderSource);
+            int fragmentShader = CompileShader(ShaderType.FragmentShader, FragmentShaderSource);
+
+            // Creación del programa de shader
+            Handle = GL.CreateProgram();
+            GL.AttachShader(Handle, vertexShader);
+            GL.AttachShader(Handle, fragmentShader);
+            GL.LinkProgram(Handle);
+
+            // Verificar el estado del enlace del programa
+            GL.GetProgram(Handle, GetProgramParameterName.LinkStatus, out int success);
+            if (success == 0)
+            {
+                string infoLog = GL.GetProgramInfoLog(Handle);
+                throw new Exception($"Error linking shader program: {infoLog}");
+            }
+
+            // Los shaders ya no son necesarios después de enlazar el programa, se pueden eliminar
+            GL.DeleteShader(vertexShader);
+            GL.DeleteShader(fragmentShader);
+        }
+
+        private int CompileShader(ShaderType type, string source)
+        {
+            int shader = GL.CreateShader(type);
+            GL.ShaderSource(shader, source);
+            GL.CompileShader(shader);
+
+            // Verificar el estado de compilación del shader
+            GL.GetShader(shader, ShaderParameter.CompileStatus, out int success);
+            if (success == 0)
+            {
+                string infoLog = GL.GetShaderInfoLog(shader);
+                GL.DeleteShader(shader);
+                throw new Exception($"Error compiling {type}: {infoLog}");
+            }
+
+            return shader;
+        }
+
+        public void Use()
+        {
+            GL.UseProgram(Handle);
+        }
+
+        public void SetMatrix4(string name, Matrix4 matrix)
+        {
+            int location = GL.GetUniformLocation(Handle, name);
+            GL.UniformMatrix4(location, false, ref matrix);
+        }
+
+        public void SetVector3(string name, Vector3 vector)
+        {
+            int location = GL.GetUniformLocation(Handle, name);
+            GL.Uniform3(location, ref vector);
+        }
+
+        public void SetFloat(string name, float value)
+        {
+            int location = GL.GetUniformLocation(Handle, name);
+            GL.Uniform1(location, value);
+        }
+
+        public void Dispose()
+        {
+            GL.DeleteProgram(Handle);
+        }
+
+        // Aquí se definen las fuentes de los shaders
+        private const string VertexShaderSource = @"
+           #version 330 core
+
+layout(location = 0) in vec3 aPosition;
+layout(location = 1) in vec3 aColor;
+layout(location = 2) in vec3 aNormal;
+
+out vec3 ourColor;
+
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
+
+void main()
+{
+    gl_Position = projection * view * model * vec4(aPosition, 1.0);
+    ourColor = aColor;
+}
+        ";
+
+        private const string FragmentShaderSource = @"
+            #version 330 core
+
+in vec3 ourColor;
+out vec4 FragColor;
+
+void main()
+{
+    FragColor = vec4(ourColor, 1.0);
+}
+        ";
+    }
+}
+"
+Renderización.cs: " using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
+using OpenTK_Tarea_5.Clases_Base;
+using System;
+using System.Collections.Generic;
+
+public class Renderización : IDisposable
+{
+    private Dictionary<Parte, int> _vertexArrayObjects = new Dictionary<Parte, int>();
+    private Dictionary<Parte, Dictionary<string, int>> _vertexBufferObjects = new Dictionary<Parte, Dictionary<string, int>>();
+    private Dictionary<Parte, int> _elementBufferObjects = new Dictionary<Parte, int>();
+    private Dictionary<Parte, int> _indicesCounts = new Dictionary<Parte, int>();
+    private Shader _shader;
+
+    public Renderización(Shader shader)
+    {
+        _shader = shader ?? throw new ArgumentNullException(nameof(shader));
+        GL.Enable(EnableCap.DepthTest);
+        GL.DepthFunc(DepthFunction.Less);
+    }
+
+    public void ConfigurarBuffers(Objeto objeto, List<string> atributos)
+    {
+        foreach (var parte in objeto.Partes.Values)
+        {
+            foreach (var poligono in parte.Poligonos.Values)
+            {
+                int vao = GL.GenVertexArray();
+                int ebo = GL.GenBuffer();
+                Dictionary<string, int> vbos = new Dictionary<string, int>();
+
+                _vertexArrayObjects[parte] = vao;
+                _elementBufferObjects[parte] = ebo;
+                _indicesCounts[parte] = poligono.Indices.Length;
+
+                GL.BindVertexArray(vao);
+
+                int index = 0;
+
+                foreach (var atributo in atributos)
+                {
+                    int vbo = GL.GenBuffer();
+                    vbos[atributo] = vbo;
+
+                    float[] datos = ObtenerDatosAtributo(poligono, atributo);
+
+                    GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
+                    GL.BufferData(BufferTarget.ArrayBuffer, datos.Length * sizeof(float), datos, BufferUsageHint.StaticDraw);
+
+                    GL.VertexAttribPointer(index, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
+                    GL.EnableVertexAttribArray(index);
+
+                    index++;
+                }
+
+                _vertexBufferObjects[parte] = vbos;
+
+                GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
+                GL.BufferData(BufferTarget.ElementArrayBuffer, _indicesCounts[parte] * sizeof(uint), poligono.Indices, BufferUsageHint.StaticDraw);
+
+                GL.BindVertexArray(0);
+            }
+        }
+    }
+
+    private float[] ObtenerDatosAtributo(Poligono poligono, string atributo)
+    {
+        float[] datos = new float[poligono.Puntos.Count * 3];
+        int index = 0;
+
+        foreach (var punto in poligono.Puntos.Values)
+        {
+            if (atributo == "posicion")
+            {
+                datos[index++] = punto.Posicion.X;
+                datos[index++] = punto.Posicion.Y;
+                datos[index++] = punto.Posicion.Z;
+            }
+            else if (atributo == "color")
+            {
+                datos[index++] = punto.Color.X;
+                datos[index++] = punto.Color.Y;
+                datos[index++] = punto.Color.Z;
+            }
+        }
+
+        return datos;
+    }
+
+    public void RenderizarObjeto(Objeto objeto, Matrix4 transformacionGlobal, Matrix4 view, Matrix4 projection)
+    {
+        _shader.Use();
+
+        foreach (var parte in objeto.Partes.Values)
+        {
+            var matrizFinal = parte.ObtenerMatrizTransformacion() * transformacionGlobal;
+            _shader.SetMatrix4("model", matrizFinal);
+            _shader.SetMatrix4("view", view);
+            _shader.SetMatrix4("projection", projection);
+
+            GL.BindVertexArray(_vertexArrayObjects[parte]);
+            GL.DrawElements(PrimitiveType.Triangles, _indicesCounts[parte], DrawElementsType.UnsignedInt, IntPtr.Zero);
+        }
+    }
+
+
+    public void Dispose()
+    {
+        foreach (var vao in _vertexArrayObjects.Values)
+        {
+            GL.DeleteVertexArray(vao);
+        }
+
+        foreach (var vbos in _vertexBufferObjects.Values)
+        {
+            foreach (var vbo in vbos.Values)
+            {
+                GL.DeleteBuffer(vbo);
+            }
+        }
+
+        foreach (var ebo in _elementBufferObjects.Values)
+        {
+            GL.DeleteBuffer(ebo);
+        }
+
+        _vertexArrayObjects.Clear();
+        _vertexBufferObjects.Clear();
+        _elementBufferObjects.Clear();
+        _indicesCounts.Clear();
+    }
+}
+"
+Escenario.cs: " using System.Collections.Generic;
+using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
+using OpenTK_Tarea_5.Extra;
+
+namespace OpenTK_Tarea_5.Clases_Base
+{
+    internal class Escenario : IDisposable
+    {
+        // Transformaciones del escenario
+        public Vector3 Posicion { get; set; } = Vector3.Zero;
+        public Vector3 Rotacion { get; set; } = Vector3.Zero;
+        public Vector3 Escala { get; set; } = Vector3.One;
+        private readonly Dictionary<string, Objeto> _objetos = new Dictionary<string, Objeto>();
+        public IReadOnlyDictionary<string, Objeto> Objetos => _objetos;
+        private Administrador_Animaciones _adminAnimaciones;
+
+        public Escenario(Administrador_Animaciones anim)
+        {
+            _adminAnimaciones = anim;
+        }
+        // Matriz de transformación del escenario
+        public Matrix4 ObtenerMatrizEscenario()
+        {
+            return Matrix4.CreateScale(Escala) *
+                   Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Rotacion.X)) *
+                   Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Rotacion.Y)) *
+                   Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Rotacion.Z)) *
+                   Matrix4.CreateTranslation(Posicion);
+        }
+        public Matrix4 ObtenerMatrizObjeto(Objeto objeto)
+        {
+            return objeto.ObtenerMatrizModelo() * ObtenerMatrizEscenario();
+        }
+        public void AgregarObjeto(string key, Objeto objeto)
+        {
+            if (objeto == null) throw new ArgumentNullException(nameof(objeto));
+            _objetos.Add(key, objeto);
+        }
+        public IEnumerable<string> ObtenerTodosLosHashes()
+        {
+            return _objetos.Keys;
+        }
+        public Objeto? ObtenerObjeto(string key)
+        {
+            if (_objetos.TryGetValue(key, out var objeto))
+            {
+                return objeto;
+            }
+            return null;
+        }
+        public bool EliminarObjeto(string key)
+        {
+            if (_objetos.TryGetValue(key, out var objeto))
+            {
+                // Libera los recursos del objeto antes de eliminarlo
+                objeto.Dispose();
+                _objetos.Remove(key);
+                return true;
+            }
+            return false;
+        }
+        public void Modificar_objeto(string key, Objeto objeto, Renderización renderizacion, int n)
+        {
+            bool modificado=false;
+            if ((n>=1) && (n<=3))
+            {
+                //Modificar_Tranformaciones(n, objeto);
+                Modificar_Animaciones(objeto, n);
+                modificado = true;
+            }
+            else if (n==4)
+            {
+                Modificar_color_puntos(objeto);
+                modificado = true;
+            }
+            else
+            {
+                Console.WriteLine("\n¡¡¡Ingrese un numero valido!!!");
+            }
+            if (modificado)
+            {
+                actualizar_objeto(renderizacion, objeto);
+            }
+            
+        }
+        public void Modificar_Tranformaciones(int n, Objeto obj)
+        {
+            switch (n)
+            {
+                case 1:
+                    Console.WriteLine("Modificar Posición (dejar en blanco para mantener los valores predeterminados):");
+                    obj.Posicion = ModificarVector(obj.Posicion);
+                    break;
+                case 2:
+                    Console.WriteLine("Modificar Rotación (dejar en blanco para mantener los valores predeterminados):");
+                    obj.Rotacion = ModificarVector(obj.Rotacion);
+                    break;
+                case 3:
+                    Console.WriteLine("Modificar Escala (dejar en blanco para mantener los valores predeterminados):");
+                    obj.Escala = ModificarVector(obj.Escala);
+                    break;
+            }
+
+        }
+        private void Modificar_Animaciones(Objeto objeto, int tipoTransformacion)
+        {
+            Console.WriteLine("Ingrese los valores finales para la animación:");
+
+            Vector3 inicio;
+            Vector3 final;
+
+            // Selecciona la transformación según el tipo (posición, rotación, escala)
+            switch (tipoTransformacion)
+            {
+                case 1: // Modificar Posición
+                    inicio = objeto.Posicion;  // Usa la posición actual como inicio
+                    Console.WriteLine("Posición final:");
+                    final = ModificarVector(inicio);  // Solicita los valores finales
+                    break;
+
+                case 2: // Modificar Rotación
+                    inicio = objeto.Rotacion;  // Usa la rotación actual como inicio
+                    Console.WriteLine("Rotación final:");
+                    final = ModificarVector(inicio);  // Solicita los valores finales
+                    break;
+
+                case 3: // Modificar Escala
+                    inicio = objeto.Escala;  // Usa la escala actual como inicio
+                    Console.WriteLine("Escala final:");
+                    final = ModificarVector(inicio);  // Solicita los valores finales
+                    break;
+
+                default:
+                    throw new InvalidOperationException("Transformación no válida");
+            }
+
+            Console.Write("Velocidad de animación: ");
+            float velocidad = float.Parse(Console.ReadLine());
+
+            // Tipo de animación según el valor de 'tipoTransformacion'
+            Animación.Tipo_Animacion tipoAnimacion = tipoTransformacion switch
+            {
+                1 => Animación.Tipo_Animacion.Posicion,
+                2 => Animación.Tipo_Animacion.Rotacion,
+                3 => Animación.Tipo_Animacion.Escala,
+                _ => throw new InvalidOperationException("Transformación no válida")
+            };
+
+            // Agregar la animación al objeto
+            _adminAnimaciones.AgregarAnimacion(objeto, inicio, final, velocidad, InterpoTK.TipoInterpolacion.Cubica, tipoAnimacion);
+        }
+        public void Modificar_color_puntos(Objeto obj)
+        {
+            foreach (var parte in obj.Partes.Values)
+            {
+                foreach (var poligono in parte.Poligonos.Values)
+                {
+                    foreach (var puntoEntry in poligono.Puntos)
+                    {
+                        string hash = puntoEntry.Key;  // Identificador del punto
+                        Punto punto = puntoEntry.Value;
+
+                        Console.WriteLine($"Modificar color del punto {hash} (dejar en blanco para mantener el valor predeterminado):");
+                        punto.Color = ModificarVector(punto.Color);
+                    }
+                }
+            }
+        }
+        private Vector3 ModificarVector(Vector3 vectorOriginal)
+        {
+            Console.Write($"X ({vectorOriginal.X}): ");
+            string? inputX = Console.ReadLine();
+            Console.Write($"Y ({vectorOriginal.Y}): ");
+            string? inputY = Console.ReadLine();
+            Console.Write($"Z ({vectorOriginal.Z}): ");
+            string? inputZ = Console.ReadLine();
+
+            float x = string.IsNullOrEmpty(inputX) ? vectorOriginal.X : float.Parse(inputX);
+            float y = string.IsNullOrEmpty(inputY) ? vectorOriginal.Y : float.Parse(inputY);
+            float z = string.IsNullOrEmpty(inputZ) ? vectorOriginal.Z : float.Parse(inputZ);
+
+            return new Vector3(x, y, z);
+        }
+        public void DibujarEscenario(Renderización renderizacion, Matrix4 view, Matrix4 projection)
+        {
+            var matrizEscenario = ObtenerMatrizEscenario();
+
+            foreach (var objeto in _objetos.Values)
+            {
+                var matrizObjeto = objeto.ObtenerMatrizModelo() * matrizEscenario;
+
+                // Aplicar la transformación del escenario al objeto
+                renderizacion.RenderizarObjeto(objeto, matrizObjeto, view, projection);
+            }
+        }
+
+        public void actualizar_objeto(Renderización renderizacion, Objeto objeto)
+        {
+            List<string> atributos = new List<string> { "posicion", "color" };
+            renderizacion.ConfigurarBuffers(objeto, atributos);
+        }
+
+        public void Dispose()
+        {
+            // Liberar recursos de todos los objetos en el escenario
+            foreach (var objeto in _objetos.Values)
+            {
+                objeto.Dispose();
+            }
+            _objetos.Clear();
+        }
+    }
+}
+"
+Objeto.cs: " using System.Collections.Generic;
+using OpenTK.Mathematics;
+using OpenTK.Graphics.OpenGL4;
+
+namespace OpenTK_Tarea_5.Clases_Base
+{
+    public class Objeto : IDisposable
+    {
+        public Vector3 Posicion { get; set; }
+        public Vector3 Rotacion { get; set; }
+        public Vector3 Escala { get; set; }
+        public Dictionary<string, Parte> Partes { get; } = new Dictionary<string, Parte>();
+
+        public Objeto(Vector3 posicion, Vector3 rotacion, Vector3 escala)
+        {
+            Posicion = posicion;
+            Rotacion = rotacion;
+            Escala = escala;
+        }
+
+        public Matrix4 ObtenerMatrizModelo()
+        {
+            return Matrix4.CreateScale(Escala) *
+                   Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Rotacion.X)) *
+                   Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Rotacion.Y)) *
+                   Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Rotacion.Z)) *
+                   Matrix4.CreateTranslation(Posicion);
+        }
+        // Obtiene la matriz de transformación combinada para cada parte
+        public Matrix4 ObtenerMatrizParte(Parte parte)
+        {
+            return parte.ObtenerMatrizTransformacion() * ObtenerMatrizModelo();
+        }
+        public void AgregarParte(string key, Parte parte)
+        {
+            if (parte == null) throw new ArgumentNullException(nameof(parte));
+            Partes.Add(key, parte);
+        }
+
+        public void Dispose()
+        {
+            foreach (var parte in Partes.Values)
+            {
+                parte.Dispose();  // Liberar recursos gráficos de cada parte
+            }
+            Partes.Clear();
+        }
+    }
+}
+"
+Partes.cs: " using System.Collections.Generic;
+using OpenTK.Mathematics;
+
+namespace OpenTK_Tarea_5.Clases_Base
+{
+    public class Parte : IDisposable
+    {
+        public Dictionary<string, Poligono> Poligonos { get; } = new Dictionary<string, Poligono>();
+        public Vector3 CentroDeMasa { get; private set; }
+        // Transformaciones propias de cada parte
+        public Vector3 Posicion { get; set; } = Vector3.Zero;
+        public Vector3 Rotacion { get; set; } = Vector3.Zero;
+        public Vector3 Escala { get; set; } = Vector3.One;
+        public Parte(Dictionary<string, Poligono> poligonos)
+        {
+            Poligonos = poligonos ?? throw new ArgumentNullException(nameof(poligonos));
+            CalcularCentroDeMasa();
+        }
+        // Calcula la matriz de transformación para la parte
+        public Matrix4 ObtenerMatrizTransformacion()
+        {
+            return Matrix4.CreateScale(Escala) *
+                   Matrix4.CreateRotationX(MathHelper.DegreesToRadians(Rotacion.X)) *
+                   Matrix4.CreateRotationY(MathHelper.DegreesToRadians(Rotacion.Y)) *
+                   Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(Rotacion.Z)) *
+                   Matrix4.CreateTranslation(Posicion);
+        }
+        private void CalcularCentroDeMasa()
+        {
+            Vector3 sumaPosiciones = Vector3.Zero;
+            int contadorPuntos = 0;
+
+            foreach (var poligono in Poligonos.Values)
+            {
+                foreach (var punto in poligono.Puntos.Values)
+                {
+                    sumaPosiciones += punto.Posicion;
+                    contadorPuntos++;
+                }
+            }
+
+            if (contadorPuntos > 0)
+            {
+                CentroDeMasa = sumaPosiciones / contadorPuntos;
+            }
+            else
+            {
+                CentroDeMasa = Vector3.Zero;  // Si no hay puntos, el centro de masa es el origen
+            }
+        }
+        public void Dispose()
+        {
+            foreach (var poligono in Poligonos.Values)
+            {
+                poligono.Dispose();
+            }
+            Poligonos.Clear();
+            GC.SuppressFinalize(this);
+        }
+    }
+}
+"
+Poligono.cs: " using System.Collections.Generic;
+
+namespace OpenTK_Tarea_5.Clases_Base
+{
+    public class Poligono : IDisposable
+    {
+        public Dictionary<string, Punto> Puntos { get; } = new Dictionary<string, Punto>();
+        public uint[] Indices { get; }
+
+        public Poligono(Dictionary<string, Punto> puntos, uint[] indices)
+        {
+            Puntos = puntos ?? throw new ArgumentNullException(nameof(puntos));
+            Indices = indices ?? throw new ArgumentNullException(nameof(indices));
+        }
+        public void Dispose()
+        {
+            // Liberar recursos gráficos si es necesario...
+            GC.SuppressFinalize(this);
+        }
+    }
+}
+"
+Punto.cs: " using OpenTK.Mathematics;
+
+namespace OpenTK_Tarea_5.Clases_Base
+{
+    public class Punto
+    {
+        public Vector3 Posicion { get; set; }
+        public Vector3 Color { get; set; }
+
+        public Punto(Vector3 posicion, Vector3 color)
+        {
+            Posicion = posicion;
+            Color = color;
+        }
+    }
+}
+"
+Serializador.cs: " using System;
+using System.IO;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using OpenTK.Mathematics;
+using OpenTK_Tarea_5.Extra;
+
+namespace OpenTK_Tarea_5.Clases_Base
+{
+    internal class Serializador
+    {
+        private readonly JsonSerializerOptions _opciones;
+        private readonly string _rutaDefault = "Modelos 3D\\";
+
+        // Constructor para configurar las opciones de serialización
+        public Serializador(bool incluirCampos = true, bool indentar = true)
+        {
+            _opciones = new JsonSerializerOptions
+            {
+                WriteIndented = indentar,
+                IncludeFields = incluirCampos,
+                ReferenceHandler = ReferenceHandler.Preserve // Agregar soporte para referencias cíclicas
+            };
+        }
+
+        // Filtra y muestra los hashes de los objetos en el escenario
+        public void FiltrarHashes(Escenario escenario)
+        {
+            var hashes = escenario.ObtenerTodosLosHashes().ToArray();
+
+            if (hashes.Length == 0)
+            {
+                Console.WriteLine("No se encontraron modelos en el sistema.");
+                return;
+            }
+
+            Console.WriteLine("Hashes de modelos disponibles:");
+            for (int i = 0; i < hashes.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}: {hashes[i]}");
+            }
+        }
+
+        // Serializar y guardar un objeto 3D en un archivo JSON
+        public void Guardar3D(string idModelo, Escenario escenario)
+        {
+            if (string.IsNullOrEmpty(idModelo))
+            {
+                Console.WriteLine("El nombre del archivo no puede ser nulo o vacío.");
+                return;
+            }
+
+            var objeto3D = escenario.ObtenerObjeto(idModelo);
+
+            if (objeto3D == null)
+            {
+                Console.WriteLine($"El modelo con ID '{idModelo}' no existe.");
+                return;
+            }
+
+            try
+            {
+                // Convertir el objeto a DTO
+                var objetoDTO = ConvertirAObjetoDTO(objeto3D);
+                string rutaCompleta = Path.Combine(_rutaDefault, $"{idModelo}.json");
+
+                // Crear el directorio si no existe
+                CrearDirectorioSiNoExiste(rutaCompleta);
+
+                // Serializar y guardar el archivo JSON
+                var jsonString = JsonSerializer.Serialize(objetoDTO, _opciones);
+                File.WriteAllText(rutaCompleta, jsonString);
+                Console.WriteLine($"Objeto 3D guardado en {rutaCompleta}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al guardar el objeto 3D: {ex.Message}");
+            }
+        }
+
+        // Método para cargar un objeto 3D desde un archivo JSON
+        public Objeto? Cargar3D(string nombreArchivo)
+        {
+            if (string.IsNullOrEmpty(nombreArchivo))
+            {
+                Console.WriteLine("El nombre del archivo no puede ser nulo o vacío.");
+                return null;
+            }
+
+            string rutaArchivo = Path.Combine(_rutaDefault, $"{nombreArchivo}.json");
+
+            if (!File.Exists(rutaArchivo))
+            {
+                Console.WriteLine($"El archivo {rutaArchivo} no existe.");
+                return null;
+            }
+
+            try
+            {
+                // Leer el archivo JSON
+                var jsonString = File.ReadAllText(rutaArchivo);
+
+                // Deserializar a ObjetoDTO
+                var objetoDTO = JsonSerializer.Deserialize<ObjetoDTO>(jsonString, _opciones);
+                if (objetoDTO == null)
+                {
+                    Console.WriteLine($"Error al deserializar el archivo {rutaArchivo}: el resultado es null.");
+                    return null;
+                }
+
+                // Reconstruir el objeto desde DTO
+                return ReconstruirObjetoDesdeDTO(objetoDTO);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al cargar el objeto 3D: {ex.Message}");
+                return null;
+            }
+        }
+
+        // Filtrar y mostrar los archivos .json disponibles
+        public string[] FiltrarArchivos()
+        {
+            string[] archivosJson = Directory.GetFiles(_rutaDefault, "*.json");
+
+            if (archivosJson.Length == 0)
+            {
+                Console.WriteLine("No se encontraron archivos .json en la carpeta especificada.");
+                return Array.Empty<string>();
+            }
+
+            Console.WriteLine("Archivos disponibles:");
+            for (int i = 0; i < archivosJson.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}: {Path.GetFileName(archivosJson[i])}");
+            }
+
+            return archivosJson;
+        }
+
+        // Método auxiliar para crear directorio si no existe
+        private void CrearDirectorioSiNoExiste(string rutaCompleta)
+        {
+            string? directorio = Path.GetDirectoryName(rutaCompleta);
+            if (!Directory.Exists(directorio))
+            {
+                Directory.CreateDirectory(directorio);
+            }
+        }
+
+        // Convertir el Objeto a ObjetoDTO para serializarlo
+        private ObjetoDTO ConvertirAObjetoDTO(Objeto objeto)
+        {
+            var objetoDTO = new ObjetoDTO
+            {
+                Posicion = new float[] { objeto.Posicion.X, objeto.Posicion.Y, objeto.Posicion.Z },
+                Rotacion = new float[] { objeto.Rotacion.X, objeto.Rotacion.Y, objeto.Rotacion.Z },
+                Escala = new float[] { objeto.Escala.X, objeto.Escala.Y, objeto.Escala.Z },
+                Partes = new Dictionary<string, ParteDTO>()
+            };
+
+            foreach (var parteKvp in objeto.Partes)
+            {
+                var parteDTO = new ParteDTO
+                {
+                    Puntos = new Dictionary<string, PuntoDTO>(),
+                    Indices = parteKvp.Value.Poligonos.Values.SelectMany(p => p.Indices).ToArray(),
+                    Poligonos = ConvertirPoligonosDTO(parteKvp.Value.Poligonos)
+                };
+
+                objetoDTO.Partes.Add(parteKvp.Key, parteDTO);
+            }
+
+            return objetoDTO;
+        }
+
+        // Convertir un diccionario de poligonos a PoligonoDTO
+        private Dictionary<string, PoligonoDTO> ConvertirPoligonosDTO(Dictionary<string, Poligono> poligonos)
+        {
+            var poligonosDTO = new Dictionary<string, PoligonoDTO>();
+
+            foreach (var poligonoKvp in poligonos)
+            {
+                var poligonoDTO = new PoligonoDTO
+                {
+                    Puntos = poligonoKvp.Value.Puntos.ToDictionary(
+                        kvp => kvp.Key,
+                        kvp => new PuntoDTO
+                        {
+                            Posicion = new float[] { kvp.Value.Posicion.X, kvp.Value.Posicion.Y, kvp.Value.Posicion.Z },
+                            Color = new float[] { kvp.Value.Color.X, kvp.Value.Color.Y, kvp.Value.Color.Z }
+                        }),
+                    Indices = poligonoKvp.Value.Indices
+                };
+
+                poligonosDTO.Add(poligonoKvp.Key, poligonoDTO);
+            }
+
+            return poligonosDTO;
+        }
+
+        // Reconstruir el Objeto 3D desde un ObjetoDTO
+        private Objeto ReconstruirObjetoDesdeDTO(ObjetoDTO objetoDTO)
+        {
+            var objeto = new Objeto(
+                new Vector3(objetoDTO.Posicion[0], objetoDTO.Posicion[1], objetoDTO.Posicion[2]),
+                new Vector3(objetoDTO.Rotacion[0], objetoDTO.Rotacion[1], objetoDTO.Rotacion[2]),
+                new Vector3(objetoDTO.Escala[0], objetoDTO.Escala[1], objetoDTO.Escala[2])
+            );
+
+            foreach (var parteEntry in objetoDTO.Partes)
+            {
+                var poligonos = parteEntry.Value.Poligonos.ToDictionary(
+                    p => p.Key,
+                    p => new Poligono(
+                        p.Value.Puntos.ToDictionary(
+                            punto => punto.Key,
+                            punto => new Punto(
+                                new Vector3(punto.Value.Posicion[0], punto.Value.Posicion[1], punto.Value.Posicion[2]),
+                                new Vector3(punto.Value.Color[0], punto.Value.Color[1], punto.Value.Color[2])
+                            )
+                        ),
+                        p.Value.Indices
+                    )
+                );
+
+                var parte = new Parte(poligonos);
+                objeto.AgregarParte(parteEntry.Key, parte);
+            }
+
+            return objeto;
+        }
+    }
+}"
+
+Controlador:
+
+camera.cs : " using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using OpenTK.Mathematics;
+
+namespace OpenTK_Tarea_5.Controlador
+{
+    internal class camera
+    {
+        private Vector3 _front = -Vector3.UnitZ; // Dirección inicial de la cámara
+        private Vector3 _up = Vector3.UnitY;     // Dirección hacia arriba
+        private Vector3 _right = Vector3.UnitX;  // Dirección a la derecha
+        public bool bloquear_raton=true;
+        public Vector3 Position { get; private set; } // Posición de la cámara
+        public float Yaw { get; private set; } = -90.0f; // Rotación horizontal
+        public float Pitch { get; private set; } = 0.0f; // Rotación vertical
+        public float Speed { get; set; } = 3.5f;        // Velocidad de movimiento
+        public float Sensitivity { get; set; } = 0.5f;  // Sensibilidad del mouse
+        public camera(Vector3 position)
+        {
+            Position = position;
+        }
+        public Matrix4 GetViewMatrix()
+        {
+            return Matrix4.LookAt(Position, Position + _front, _up);
+        }
+
+        public void ProcessKeyboardInput(Vector3 direction, float deltaTime)
+        {
+            float velocity = Speed * deltaTime;
+            if (direction.Z == 1) // Mover hacia adelante
+            {
+                Position += _front * velocity;
+            }
+                
+            if (direction.Z == -1) // Mover hacia atrás
+            {
+                Position -= _front * velocity;
+            }
+                
+            if (direction.X == 1) // Mover hacia la derecha
+            {
+                Position += _right * velocity;
+            }
+                
+            if (direction.X == -1) // Mover hacia la izquierda
+            {
+                Position -= _right * velocity;
+            }
+                
+            if(direction.Y == 1)
+            {
+                Position += _up * velocity;
+            }
+                
+            if (direction.Y == -1)
+            {
+                Position -= _up * velocity;
+            }
+                
+        }
+
+        public void ProcessMouseMovement(float xOffset, float yOffset, bool constrainPitch = true)
+        {
+            if (!bloquear_raton)
+            {
+                xOffset *= Sensitivity;
+                yOffset *= Sensitivity;
+
+                Yaw += xOffset;
+                Pitch -= yOffset; // Invertir el yOffset porque las coordenadas Y en la ventana aumentan hacia abajo
+
+                if (constrainPitch)
+                {
+                    Pitch = MathHelper.Clamp(Pitch, -89.0f, 89.0f);
+                }
+
+                UpdateCameraVectors();
+            }
+            
+        }
+
+        private void UpdateCameraVectors()
+        {
+            _front.X = MathF.Cos(MathHelper.DegreesToRadians(Yaw)) * MathF.Cos(MathHelper.DegreesToRadians(Pitch));
+            _front.Y = MathF.Sin(MathHelper.DegreesToRadians(Pitch));
+            _front.Z = MathF.Sin(MathHelper.DegreesToRadians(Yaw)) * MathF.Cos(MathHelper.DegreesToRadians(Pitch));
+            _front = Vector3.Normalize(_front);
+
+            _right = Vector3.Normalize(Vector3.Cross(_front, _up)); // Re-calcular el vector de la derecha
+        }
+    }
+}
+"
+Inputs.cs: " using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using OpenTK.Windowing.Desktop;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.GraphicsLibraryFramework;
+using OpenTK.Mathematics;
+using OpenTK_Tarea_5.Clases_Base;
+using OpenTK_Tarea_5.Extra;
+namespace OpenTK_Tarea_5.Controlador
+{
+    internal class Inputs
+    {
+        private camera _camera;
+        private GameWindow _window;
+        
+        private Administrar_modelos _modelos;
+        public Inputs(camera camera, GameWindow window, Administrar_modelos modelo)
+        {
+            _camera = camera;
+            _window = window;
+           _modelos = modelo;
+            
+        }
+        public void HandleInput(FrameEventArgs e)
+        {
+            // Movimiento de la cámara con teclas
+            Vector3 direction = Vector3.Zero;
+            if (_window.KeyboardState.IsKeyDown(Keys.W))
+                direction.Z += 1;
+            if (_window.KeyboardState.IsKeyDown(Keys.S))
+                direction.Z -= 1;
+            if (_window.KeyboardState.IsKeyDown(Keys.A))
+                direction.X -= 1;
+            if (_window.KeyboardState.IsKeyDown(Keys.D))
+                direction.X += 1;
+            if (_window.KeyboardState.IsKeyDown(Keys.F))
+            {
+                Screenshot.SaveScreenshot(_window);
+                Console.WriteLine("Se ha guardado la Caputura de Pantalla");
+            }
+            if (_window.KeyboardState.IsKeyDown(Keys.LeftControl))
+                direction.Y -= 1;
+            if (_window.KeyboardState.IsKeyDown(Keys.LeftShift))
+                direction.Y += 1;
+            if (_window.KeyboardState.IsKeyDown(Keys.Q))
+            {
+                _window.CursorState = CursorState.Grabbed; // Bloquear el cursor dentro de la ventana
+                _camera.bloquear_raton = false;
+            }
+                
+            if (_window.KeyboardState.IsKeyDown(Keys.E))
+            {
+                _window.CursorState = CursorState.Normal;
+                _camera.bloquear_raton=true;
+            }
+            if (_window.KeyboardState.IsKeyDown(Keys.C))
+            {
+                _modelos.CargarModelo();
+            }
+            if (_window.KeyboardState.IsKeyDown(Keys.G))
+            {
+                _modelos.GuardarModelo();
+            }
+            if (_window.KeyboardState.IsKeyDown(Keys.Escape))
+            {
+                _window.Close();
+            }
+            if (_window.KeyboardState.IsKeyDown(Keys.M))
+            {
+                _modelos.ModificarModelo();
+            }
+
+            _camera.ProcessKeyboardInput(direction, (float)e.Time);
+
+            // Movimiento de la cámara con el mouse
+            var mouseState = _window.MouseState;
+            _camera.ProcessMouseMovement(mouseState.Delta.X, mouseState.Delta.Y);
+        }
+    }
+}
+"
+
+Screenshot.cs: " using OpenTK.Graphics.OpenGL4;
+using OpenTK.Windowing.Desktop;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Formats.Png; // Para soporte de PNG
+using System;
+using System.IO;
+
+namespace OpenTK_Tarea_5.Controlador
+{
+    internal static class Screenshot
+    {
+        public static void SaveScreenshot(GameWindow window)
+        {
+            // Obtén las dimensiones de la ventana
+            int width = window.Size.X;
+            int height = window.Size.Y;
+            byte[] pixels = new byte[width * height * 4]; // RGBA
+
+            // Configura el viewport para asegurarte de capturar la ventana completa
+            GL.Viewport(0, 0, width, height);
+
+            // Asegúrate de que el framebuffer esté enlazado al predeterminado
+            GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+
+            // Capturar los píxeles de la ventana de OpenGL
+            GL.ReadPixels(0, 0, width, height, PixelFormat.Bgra, PixelType.UnsignedByte, pixels);
+
+            // Cargar los datos de píxeles en una imagen usando ImageSharp
+            using (var image = Image.LoadPixelData<Bgra32>(pixels, width, height))
+            {
+                // Invierte la imagen verticalmente
+                image.Mutate(x => x.Flip(FlipMode.Vertical));
+
+                // Define la ruta donde se guardará la imagen
+                string folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "OpenTK", "Figura T");
+                Directory.CreateDirectory(folderPath); // Crea el directorio si no existe
+                string filePath = Path.Combine(folderPath, $"screenshot_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+
+                // Guarda la imagen en formato PNG (mejor calidad que JPEG)
+                image.Save(filePath, new PngEncoder { CompressionLevel = PngCompressionLevel.DefaultCompression });
+
+                // Alternativamente, puedes guardarla como JPEG
+                // var jpegEncoder = new JpegEncoder { Quality = 100 }; // Calidad al 100%
+                // image.Save(filePath.Replace(".png", ".jpg"), jpegEncoder);
+
+                Console.WriteLine($"Screenshot guardado en: {filePath}");
+            }
+        }
+    }
+}
+"
+
+
+Extra:
+
+Administrador_Animaciones.cs: " using OpenTK_Tarea_5.Clases_Base;
+using OpenTK.Mathematics;
+namespace OpenTK_Tarea_5.Extra
+{
+    internal class Administrador_Animaciones
+    {
+        private List<Animación> _animaciones = new List<Animación>();
+
+        // Método para agregar animaciones a un objeto
+        public void AgregarAnimacion(Objeto objeto, Vector3 inicio, Vector3 final, float velocidad, InterpoTK.TipoInterpolacion tipo, Animación.Tipo_Animacion anim)
+        {
+            var animacion = new Animación(objeto, inicio, final, velocidad, tipo, anim);
+            _animaciones.Add(animacion);
+        }
+
+        // Método para actualizar todas las animaciones en cada frame
+        public void ActualizarAnimaciones(bool loaded)
+        {
+            if (loaded)
+            {
+                for (int i = _animaciones.Count - 1; i >= 0; i--)
+                {
+                    if (_animaciones[i].ActualizarInterpolacion()) // Si la animación ha finalizado
+                    {
+                        _animaciones.RemoveAt(i);
+                    }
+                }
+            }
+
+        }
+
+    }
+}
+"
+
+
+Administrar_modelos.cs: " using OpenTK.Mathematics;
+using OpenTK_Tarea_5.Clases_Base;
+using System;
+using System.Collections.Generic;
+
+namespace OpenTK_Tarea_5.Extra
+{
+    internal class Administrar_modelos
+    {
+        private Renderización _renderizacion;
+        private Escenario _escenario;
+        private Serializador _serializador;
+
+        private int _index;
+
+        public Administrar_modelos(Renderización render, Escenario escena)
+        {
+            _renderizacion = render;
+            _escenario = escena;
+            
+            _serializador = new Serializador();
+            _index = 0;
+        }
+
+        public void CrearModelos(int cantidad)
+        {
+            for (int i = 0; i < cantidad; i++)
+            {
+                Vector3 posicion = new Vector3(i + 1f, i + 1f, i + 1f);
+                Vector3 rotacion = Vector3.Zero;
+                Vector3 escala = Vector3.One;
+                Objeto objetoT = ConstruirModeloT(posicion, rotacion, escala);
+
+                string nombreObjeto = $"T_{i}";
+                _escenario.AgregarObjeto(nombreObjeto, objetoT);
+                //_adminAnimaciones.AgregarAnimacion(objetoT, objetoT.Rotacion=new Vector3(0f,0f,0f), new Vector3(1000f,1000f,1000f),0.01f,InterpoTK.TipoInterpolacion.Quintica,Animación.Tipo_Animacion.Rotacion );
+                Console.WriteLine($"Se creó en memoria: {nombreObjeto}");
+                _escenario.actualizar_objeto(_renderizacion, objetoT);
+            }
+        }
+        public static Objeto ConstruirModeloT(Vector3 posicion, Vector3 rotacion, Vector3 escala)
+        {
+            Objeto objeto = new Objeto(posicion, rotacion, escala);
+
+            // Parte horizontal (la parte superior de la T)
+            var puntosHorizontal = new Dictionary<string, Punto>
+    {
+        { "P0", new Punto(new Vector3(-0.5f,  0.3f,  0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P1", new Punto(new Vector3(0.5f,  0.3f,  0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P2", new Punto(new Vector3(0.5f,  0.1f,  0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P3", new Punto(new Vector3(-0.5f,  0.1f,  0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P4", new Punto(new Vector3(-0.5f,  0.3f, -0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P5", new Punto(new Vector3(0.5f,  0.3f, -0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P6", new Punto(new Vector3(0.5f,  0.1f, -0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P7", new Punto(new Vector3(-0.5f,  0.1f, -0.1f), new Vector3(0.34f, 0.09f, 0.27f)) }
+    };
+
+            // ÍNDICES PARA CERRAR TODAS LAS CARAS DEL POLÍGONO
+            uint[] indicesHorizontal = {
+        // Frente y atrás
+        0, 1, 2, 2, 3, 0,  // Frente
+        4, 5, 6, 6, 7, 4,  // Atrás
+
+        // Lados laterales
+        0, 3, 7, 7, 4, 0,  // Lado izquierdo
+        1, 2, 6, 6, 5, 1,  // Lado derecho
+
+        // Lados superior e inferior
+        0, 1, 5, 5, 4, 0,  // Superior
+        3, 2, 6, 6, 7, 3   // Inferior
+    };
+
+            var poligonoHorizontal = new Poligono(puntosHorizontal, indicesHorizontal);
+            var parteHorizontal = new Parte(new Dictionary<string, Poligono> { { "PoligonoHorizontal", poligonoHorizontal } });
+            // Transformaciones específicas para la parte horizontal
+            parteHorizontal.Posicion = new Vector3(0, 0.03f, 0);  // Posiciona más arriba
+            parteHorizontal.Rotacion = Vector3.Zero;
+            parteHorizontal.Escala = Vector3.One;  // Escala normal
+            objeto.AgregarParte("ParteHorizontal", parteHorizontal);
+
+            // Parte vertical (el "palo" de la T)
+            var puntosVertical = new Dictionary<string, Punto>
+    {
+        { "P0", new Punto(new Vector3(-0.2f,  0.1f,  0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P1", new Punto(new Vector3(0.2f,  0.1f,  0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P2", new Punto(new Vector3(0.2f, -0.5f,  0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P3", new Punto(new Vector3(-0.2f, -0.5f,  0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P4", new Punto(new Vector3(-0.2f,  0.1f, -0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P5", new Punto(new Vector3(0.2f,  0.1f, -0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P6", new Punto(new Vector3(0.2f, -0.5f, -0.1f), new Vector3(0.34f, 0.09f, 0.27f)) },
+        { "P7", new Punto(new Vector3(-0.2f, -0.5f, -0.1f), new Vector3(0.34f, 0.09f, 0.27f)) }
+    };
+
+            // ÍNDICES PARA CERRAR TODAS LAS CARAS DEL POLÍGONO VERTICAL
+            uint[] indicesVertical = {
+        // Frente y atrás
+        0, 1, 2, 2, 3, 0,  // Frente
+        4, 5, 6, 6, 7, 4,  // Atrás
+
+        // Lados laterales
+        0, 3, 7, 7, 4, 0,  // Lado izquierdo
+        1, 2, 6, 6, 5, 1,  // Lado derecho
+
+        // Lados superior e inferior
+        0, 1, 5, 5, 4, 0,  // Superior
+        3, 2, 6, 6, 7, 3   // Inferior
+    };
+
+            var poligonoVertical = new Poligono(puntosVertical, indicesVertical);
+            var parteVertical = new Parte(new Dictionary<string, Poligono> { { "PoligonoVertical", poligonoVertical } });
+            // Transformaciones específicas para la parte vertical
+            parteVertical.Posicion = new Vector3(0, 0, 0);  // Posiciona más abajo para formar la T
+            parteVertical.Rotacion = Vector3.Zero;  // Sin rotación
+            parteVertical.Escala = Vector3.One;  // Escala normal
+            objeto.AgregarParte("ParteVertical", parteVertical);
+
+            return objeto;
+        }
+        public void CargarModelo()
+        {
+            while (true)
+            {
+                string nombreArchivo = ObtenerNombreArchivo();
+                if (nombreArchivo == "exit")
+                    break;
+
+                var objetoCargado = _serializador.Cargar3D(nombreArchivo);
+                if (objetoCargado != null)
+                {
+                    string nuevoNombreObjeto = GenerarNombreUnico(nombreArchivo);
+                    _escenario.AgregarObjeto(nuevoNombreObjeto, objetoCargado);
+                    _escenario.actualizar_objeto(_renderizacion, objetoCargado);
+                    EditarObjeto(nuevoNombreObjeto, objetoCargado);
+                }
+                else
+                {
+                    Console.WriteLine($"No se pudo cargar el objeto desde '{nombreArchivo}'.");
+                }
+            }
+        }
+
+        public void GuardarModelo()
+        {
+            MostrarModelos();
+            string nombreArchivo = SolicitarEntradaUsuario("Por favor, ingresa el nombre del modelo: ");
+            _serializador.Guardar3D(nombreArchivo, _escenario);
+        }
+
+        public void ModificarModelo()
+        {
+            MostrarModelos();
+            string nombreArchivo = SolicitarEntradaUsuario("Por favor, ingresa el nombre del modelo: ");
+            var objetoCargado = _escenario.ObtenerObjeto(nombreArchivo);
+            EditarObjeto(nombreArchivo, objetoCargado, true);
+        }
+
+        // Métodos Auxiliares
+
+        private void EditarObjeto(string nombreObjeto, Objeto objeto, bool permitirEliminar = false)
+        {
+            while (true)
+            {
+                int opcion = MostrarMenuObjeto(permitirEliminar);
+
+                if (opcion >= 1 && opcion <= 4)
+                {
+                    _escenario.Modificar_objeto(nombreObjeto, objeto, _renderizacion, opcion);
+                    _escenario.actualizar_objeto(_renderizacion, objeto);
+                    Console.WriteLine($"El objeto '{nombreObjeto}' ha sido actualizado en la escena.");
+                }
+                else if (opcion == 5 && permitirEliminar)
+                {
+                    _escenario.EliminarObjeto(nombreObjeto);
+                    Console.WriteLine($"El objeto '{nombreObjeto}' ha sido eliminado.");
+                    break;
+                }
+                else if (opcion == 5 || (opcion == 6 && permitirEliminar))
+                {
+                    Console.WriteLine($"Saliendo de la edición de '{nombreObjeto}'.");
+                    break;
+                }
+
+                if (!ConfirmarContinuacion())
+                    break;
+            }
+        }
+
+        private int MostrarMenuObjeto(bool permitirEliminar = false)
+        {
+            Console.WriteLine("\n¿Qué deseas hacer con el objeto cargado?");
+            Console.WriteLine("1. Modificar posición");
+            Console.WriteLine("2. Modificar rotación");
+            Console.WriteLine("3. Modificar escala");
+            Console.WriteLine("4. Modificar color de los puntos");
+            if (permitirEliminar)
+            {
+                Console.WriteLine("5. Eliminar objeto");
+                Console.WriteLine("6. Salir del menú");
+            }
+            else
+            {
+                Console.WriteLine("5. Salir del menú");
+            }
+
+            return int.Parse(Console.ReadLine() ?? "0");
+        }
+
+        private bool ConfirmarContinuacion()
+        {
+            string respuesta = SolicitarEntradaUsuario("\n¿Quieres seguir configurando el modelo? (s/n): ");
+            return respuesta.ToLower() == "s";
+        }
+
+        private string ObtenerNombreArchivo()
+        {
+            _serializador.FiltrarArchivos();
+            return SolicitarEntradaUsuario("Por favor, ingresa el nombre del archivo (o escribe 'exit' para salir): ").ToLower();
+        }
+
+        private string SolicitarEntradaUsuario(string mensaje)
+        {
+            Console.Write(mensaje);
+            return Console.ReadLine() ?? string.Empty;
+        }
+
+        private void MostrarModelos()
+        {
+            _serializador.FiltrarHashes(_escenario);
+        }
+
+        private string GenerarNombreUnico(string nombreBase)
+        {
+            string nuevoNombre;
+            int intentos = 0;
+            do
+            {
+                nuevoNombre = $"{nombreBase}[Objeto#{_index + intentos}]";
+                intentos++;
+            } while (_escenario.ObtenerObjeto(nuevoNombre) != null);
+
+            _index += intentos;
+            return nuevoNombre;
+        }
+    }
+}
+"
+
+Animación.cs: " using OpenTK_Tarea_5.Clases_Base;
+using OpenTK.Mathematics;
+using OpenTK_Tarea_5.Extra;
+using System;
+
+namespace OpenTK_Tarea_5.Extra
+{
+    internal class Animación
+    {
+        private Objeto _objeto;
+        private Vector3 _posicionInicial;
+        private Vector3 _posicionFinal;
+        private float _progresoInterpolacion;
+        private float _velocidadInterpolacion;
+        private InterpoTK.TipoInterpolacion _tipoInterpolacion;
+        private Tipo_Animacion _animacion;
+        public enum Tipo_Animacion
+        {
+            Posicion,
+            Rotacion,
+            Escala
+            
+        }
+        public Animación(Objeto objeto,Vector3 inicio, Vector3 final, float velocidadInterpolacion, InterpoTK.TipoInterpolacion tipoInterpolacion, Tipo_Animacion _anim)
+        {
+            _objeto = objeto;
+            _animacion = _anim;
+            switch (_anim)
+            {
+                case Tipo_Animacion.Posicion:
+                    
+                    _posicionInicial = objeto.Posicion = inicio; ;
+                    break;
+                case Tipo_Animacion.Rotacion:
+                    
+                    _posicionInicial = objeto.Rotacion = inicio;
+                    break;
+                case Tipo_Animacion.Escala:
+                    
+                    _posicionInicial = objeto.Escala = inicio;
+                    break;
+            }
+              // Obtener la posición inicial del objeto
+            _posicionFinal = final;
+            _progresoInterpolacion = 0f;
+            _velocidadInterpolacion = velocidadInterpolacion;
+            _tipoInterpolacion = tipoInterpolacion;
+        }
+        public bool ActualizarInterpolacion()
+        {
+            // Actualizar progreso de interpolación
+            _progresoInterpolacion += _velocidadInterpolacion;
+
+            if (_progresoInterpolacion > 1f)  // Si ya alcanzó la posición final
+            {
+                _progresoInterpolacion = 1f;
+            }
+
+            // Interpolamos la posición del objeto
+            Vector3 posicionActual = InterpoTK.Interpolar(_posicionInicial, _posicionFinal, _progresoInterpolacion, _tipoInterpolacion);
+
+            // Actualizamos la posición del objeto
+            switch (_animacion)
+            {
+                case Tipo_Animacion.Posicion:
+
+                    _objeto.Posicion = posicionActual; ;
+                    break;
+                case Tipo_Animacion.Rotacion:
+
+                    _objeto.Rotacion = posicionActual;
+                    break;
+                case Tipo_Animacion.Escala:
+
+                    _objeto.Escala = posicionActual;
+                    break;
+            }
+            
+
+            // Retornar true si la interpolación terminó
+            return _progresoInterpolacion >= 1f;
+        }
+    }
+}
+"
+
+DTO.cs: " using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using OpenTK_Tarea_5.Clases_Base;
+
+namespace OpenTK_Tarea_5.Extra
+{
+    internal class DTO
+    {
+    }
+    public class ObjetoDTO
+    {
+        public float[] Posicion { get; set; }
+        public float[] Rotacion { get; set; }
+        public float[] Escala { get; set; }
+        public Dictionary<string, ParteDTO> Partes { get; set; }
+
+        // Constructor vacío necesario para la deserialización
+        public ObjetoDTO() { }
+
+        public ObjetoDTO(Objeto objeto)
+        {
+            Posicion = new float[] { objeto.Posicion.X, objeto.Posicion.Y, objeto.Posicion.Z };
+            Rotacion = new float[] { objeto.Rotacion.X, objeto.Rotacion.Y, objeto.Rotacion.Z };
+            Escala = new float[] { objeto.Escala.X, objeto.Escala.Y, objeto.Escala.Z };
+            Partes = objeto.Partes.ToDictionary(p => p.Key, p => new ParteDTO(p.Value));
+        }
+    }
+
+    public class ParteDTO
+    {
+        public Dictionary<string, PuntoDTO> Puntos { get; set; }
+        public uint[] Indices { get; set; }
+
+        // Agregamos esta propiedad para contener los polígonos
+        public Dictionary<string, PoligonoDTO> Poligonos { get; set; }
+
+        // Constructor vacío necesario para la deserialización
+        public ParteDTO() { }
+
+        public ParteDTO(Parte parte)
+        {
+            Puntos = new Dictionary<string, PuntoDTO>();
+
+            // Inicializar la lista de polígonos
+            Poligonos = new Dictionary<string, PoligonoDTO>();
+
+            // Recorrer cada polígono y mapear sus puntos a PuntoDTO y PoligonoDTO
+            foreach (var poligonoEntry in parte.Poligonos)
+            {
+                var poligono = poligonoEntry.Value;
+                var poligonoDTO = new PoligonoDTO(poligono);
+                Poligonos[poligonoEntry.Key] = poligonoDTO;
+            }
+
+            Indices = parte.Poligonos.Values.SelectMany(p => p.Indices).ToArray();
+        }
+    }
+    public class PoligonoDTO
+    {
+        public Dictionary<string, PuntoDTO> Puntos { get; set; }
+        public uint[] Indices { get; set; }
+
+        // Constructor vacío necesario para la deserialización
+        public PoligonoDTO() { }
+
+        public PoligonoDTO(Poligono poligono)
+        {
+            Puntos = poligono.Puntos.ToDictionary(p => p.Key, p => new PuntoDTO(p.Value));
+            Indices = poligono.Indices;
+        }
+    }
+    public class PuntoDTO
+    {
+        public float[] Posicion { get; set; }
+        public float[] Color { get; set; }
+
+        // Constructor vacío necesario para la deserialización
+        public PuntoDTO() { }
+
+        public PuntoDTO(Punto punto)
+        {
+            Posicion = new float[] { punto.Posicion.X, punto.Posicion.Y, punto.Posicion.Z };
+            Color = new float[] { punto.Color.X, punto.Color.Y, punto.Color.Z };
+        }
+    }
+
+}
+"
+InterpoTK.cs: " using OpenTK.Mathematics;
+using System;
+
+namespace OpenTK_Tarea_5.Extra
+{
+    internal class InterpoTK
+    {
+        // Tipos de interpolación que soporta la clase
+        public enum TipoInterpolacion
+        {
+            Lineal,
+            Cuadratica,
+            Cubica,
+            Senoidal,
+            Exponencial,
+            Logaritmica,
+            Bezier,
+            Hermite,
+            BSpline,
+            Elastica,
+            Rebote,
+            Sigmoidal,
+            Circular,
+            Cuartica,
+            Quintica,
+            Paso
+        }
+
+        // Método principal para interpolar entre dos valores (inicio y fin) basado en el tiempo 't' (0 a 1)
+        public static Vector3 Interpolar(Vector3 inicio, Vector3 fin, float t, TipoInterpolacion tipo)
+        {
+            switch (tipo)
+            {
+                case TipoInterpolacion.Lineal:
+                    return InterpolacionLineal(inicio, fin, t);
+                case TipoInterpolacion.Cuadratica:
+                    return InterpolacionCuadratica(inicio, fin, t);
+                case TipoInterpolacion.Cubica:
+                    return InterpolacionCubica(inicio, fin, t);
+                case TipoInterpolacion.Senoidal:
+                    return InterpolacionSenoidal(inicio, fin, t);
+                case TipoInterpolacion.Exponencial:
+                    return InterpolacionExponencial(inicio, fin, t);
+                case TipoInterpolacion.Logaritmica:
+                    return InterpolacionLogaritmica(inicio, fin, t);
+                case TipoInterpolacion.Bezier:
+                    return InterpolacionBezier(inicio, fin, t);
+                case TipoInterpolacion.Hermite:
+                    return InterpolacionHermite(inicio, fin, t);
+                case TipoInterpolacion.BSpline:
+                    return InterpolacionBSpline(inicio, fin, t);
+                case TipoInterpolacion.Elastica:
+                    return InterpolacionElastica(inicio, fin, t);
+                case TipoInterpolacion.Rebote:
+                    return InterpolacionRebote(inicio, fin, t);
+                case TipoInterpolacion.Sigmoidal:
+                    return InterpolacionSigmoidal(inicio, fin, t);
+                case TipoInterpolacion.Circular:
+                    return InterpolacionCircular(inicio, fin, t);
+                case TipoInterpolacion.Cuartica:
+                    return InterpolacionCuartica(inicio, fin, t);
+                case TipoInterpolacion.Quintica:
+                    return InterpolacionQuintica(inicio, fin, t);
+                case TipoInterpolacion.Paso:
+                    return InterpolacionPaso(inicio, fin, t);
+                default:
+                    throw new ArgumentException("Tipo de interpolación no soportado");
+            }
+        }
+
+        // Interpolación lineal
+        private static Vector3 InterpolacionLineal(Vector3 inicio, Vector3 fin, float t)
+        {
+            return Vector3.Lerp(inicio, fin, t);
+        }
+
+        // Interpolación cuadrática
+        private static Vector3 InterpolacionCuadratica(Vector3 inicio, Vector3 fin, float t)
+        {
+            return Vector3.Lerp(inicio, fin, t * t);
+        }
+
+        // Interpolación cúbica
+        private static Vector3 InterpolacionCubica(Vector3 inicio, Vector3 fin, float t)
+        {
+            return Vector3.Lerp(inicio, fin, t * t * t);
+        }
+
+        // Interpolación senoidal
+        private static Vector3 InterpolacionSenoidal(Vector3 inicio, Vector3 fin, float t)
+        {
+            float tModificado = (float)Math.Sin(t * Math.PI / 2);  // Suave al final
+            return Vector3.Lerp(inicio, fin, tModificado);
+        }
+
+        // Interpolación exponencial
+        private static Vector3 InterpolacionExponencial(Vector3 inicio, Vector3 fin, float t)
+        {
+            float tModificado = (float)Math.Pow(2, 10 * (t - 1));  // Aceleración rápida
+            return Vector3.Lerp(inicio, fin, tModificado);
+        }
+
+        // Interpolación logarítmica
+        private static Vector3 InterpolacionLogaritmica(Vector3 inicio, Vector3 fin, float t)
+        {
+            float tModificado = (float)(Math.Log(1 + 9 * t) / Math.Log(10));  // Aceleración inversa
+            return Vector3.Lerp(inicio, fin, tModificado);
+        }
+
+        // Interpolación Bézier (simplificada)
+        private static Vector3 InterpolacionBezier(Vector3 inicio, Vector3 fin, float t)
+        {
+            // Bézier de 3 puntos con control intermedio en (0.5, 0.5)
+            Vector3 puntoControl = Vector3.Lerp(inicio, fin, 0.5f);
+            return Vector3.Lerp(Vector3.Lerp(inicio, puntoControl, t), Vector3.Lerp(puntoControl, fin, t), t);
+        }
+
+        // Interpolación Hermite (simplificada)
+        private static Vector3 InterpolacionHermite(Vector3 inicio, Vector3 fin, float t)
+        {
+            float tModificado = t * t * (3 - 2 * t);  // Curva suavizada Hermite
+            return Vector3.Lerp(inicio, fin, tModificado);
+        }
+
+        // Interpolación B-Spline (simplificada)
+        private static Vector3 InterpolacionBSpline(Vector3 inicio, Vector3 fin, float t)
+        {
+            // Una curva B-Spline básica para suavidad
+            float tModificado = (3 * t * t - 2 * t * t * t);  // Suaviza la curva
+            return Vector3.Lerp(inicio, fin, tModificado);
+        }
+
+        // Interpolación elástica (Elastic)
+        private static Vector3 InterpolacionElastica(Vector3 inicio, Vector3 fin, float t)
+        {
+            float tModificado = (float)Math.Sin(13 * Math.PI / 2 * t) * (float)Math.Pow(2, 10 * (t - 1));
+            return Vector3.Lerp(inicio, fin, tModificado);
+        }
+
+        // Interpolación de rebote (Bounce)
+        private static Vector3 InterpolacionRebote(Vector3 inicio, Vector3 fin, float t)
+        {
+            float tModificado = 1 - Math.Abs((float)Math.Sin(6 * t));  // Efecto de rebote
+            return Vector3.Lerp(inicio, fin, tModificado);
+        }
+
+        // Interpolación sigmoidal
+        private static Vector3 InterpolacionSigmoidal(Vector3 inicio, Vector3 fin, float t)
+        {
+            float tModificado = 1 / (1 + (float)Math.Exp(-10 * (t - 0.5)));  // Sigmoide para suavidad
+            return Vector3.Lerp(inicio, fin, tModificado);
+        }
+
+        // Interpolación circular
+        private static Vector3 InterpolacionCircular(Vector3 inicio, Vector3 fin, float t)
+        {
+            float tModificado = (float)(1 - Math.Cos(t * Math.PI / 2));  // Curva circular
+            return Vector3.Lerp(inicio, fin, tModificado);
+        }
+
+        // Interpolación cuártica
+        private static Vector3 InterpolacionCuartica(Vector3 inicio, Vector3 fin, float t)
+        {
+            return Vector3.Lerp(inicio, fin, t * t * t * t);
+        }
+
+        // Interpolación quíntica
+        private static Vector3 InterpolacionQuintica(Vector3 inicio, Vector3 fin, float t)
+        {
+            return Vector3.Lerp(inicio, fin, t * t * t * t * t);
+        }
+
+        // Interpolación por pasos (Step)
+        private static Vector3 InterpolacionPaso(Vector3 inicio, Vector3 fin, float t)
+        {
+            return t < 1 ? inicio : fin;  // Salta directamente al valor final
+        }
+
+        // Función para actualizar la interpolación (animación continua) basada en el tiempo delta
+        public static void ActualizarInterpolacion(ref Vector3 valorActual, Vector3 destino, float duracion, float tiempoTranscurrido, TipoInterpolacion tipo)
+        {
+            // Calcular el progreso en función del tiempo
+            float t = tiempoTranscurrido / duracion;
+            t = Math.Clamp(t, 0f, 1f);  // Limitar t entre 0 y 1
+
+            // Interpolar hacia el destino usando el tipo de interpolación elegido
+            valorActual = Interpolar(valorActual, destino, t, tipo);
+        }
+    }
+}
+"

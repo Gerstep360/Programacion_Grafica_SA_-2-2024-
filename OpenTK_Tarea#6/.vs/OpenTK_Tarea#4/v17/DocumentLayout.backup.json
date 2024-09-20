@@ -1,0 +1,313 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|c:\\users\\german\\source\\repos\\programacion_grafica_sa_-2-2024-\\opentk_tarea#4\\opentk_tarea#4\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|solutionrelative:opentk_tarea#4\\game.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|c:\\users\\german\\source\\repos\\programacion_grafica_sa_-2-2024-\\opentk_tarea#4\\opentk_tarea#4\\clases base\\escenario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|solutionrelative:opentk_tarea#4\\clases base\\escenario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|c:\\users\\german\\source\\repos\\programacion_grafica_sa_-2-2024-\\opentk_tarea#4\\opentk_tarea#4\\extra\\administrar_modelos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|solutionrelative:opentk_tarea#4\\extra\\administrar_modelos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|c:\\users\\german\\source\\repos\\programacion_grafica_sa_-2-2024-\\opentk_tarea#4\\opentk_tarea#4\\extra\\administrador_animaciones.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|solutionrelative:opentk_tarea#4\\extra\\administrador_animaciones.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|c:\\users\\german\\source\\repos\\programacion_grafica_sa_-2-2024-\\opentk_tarea#4\\opentk_tarea#4\\extra\\dto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|solutionrelative:opentk_tarea#4\\extra\\dto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|c:\\users\\german\\source\\repos\\programacion_grafica_sa_-2-2024-\\opentk_tarea#4\\opentk_tarea#4\\clases base\\serializador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|solutionrelative:opentk_tarea#4\\clases base\\serializador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|c:\\users\\german\\source\\repos\\programacion_grafica_sa_-2-2024-\\opentk_tarea#4\\opentk_tarea#4\\clases base\\parte.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|solutionrelative:opentk_tarea#4\\clases base\\parte.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|c:\\users\\german\\source\\repos\\programacion_grafica_sa_-2-2024-\\opentk_tarea#4\\opentk_tarea#4\\clases base\\punto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|solutionrelative:opentk_tarea#4\\clases base\\punto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|c:\\users\\german\\source\\repos\\programacion_grafica_sa_-2-2024-\\opentk_tarea#4\\opentk_tarea#4\\clases base\\poligono.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|solutionrelative:opentk_tarea#4\\clases base\\poligono.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|c:\\users\\german\\source\\repos\\programacion_grafica_sa_-2-2024-\\opentk_tarea#4\\opentk_tarea#4\\clases base\\objeto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|solutionrelative:opentk_tarea#4\\clases base\\objeto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|c:\\users\\german\\source\\repos\\programacion_grafica_sa_-2-2024-\\opentk_tarea#4\\opentk_tarea#4\\clases base\\renderizaci\u00F3n.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|solutionrelative:opentk_tarea#4\\clases base\\renderizaci\u00F3n.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|c:\\users\\german\\source\\repos\\programacion_grafica_sa_-2-2024-\\opentk_tarea#4\\opentk_tarea#4\\extra\\animaci\u00F3n.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|solutionrelative:opentk_tarea#4\\extra\\animaci\u00F3n.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|c:\\users\\german\\source\\repos\\programacion_grafica_sa_-2-2024-\\opentk_tarea#4\\opentk_tarea#4\\clases base\\shader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|solutionrelative:opentk_tarea#4\\clases base\\shader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|c:\\users\\german\\source\\repos\\programacion_grafica_sa_-2-2024-\\opentk_tarea#4\\opentk_tarea#4\\extra\\interpotk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|solutionrelative:opentk_tarea#4\\extra\\interpotk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|c:\\users\\german\\source\\repos\\programacion_grafica_sa_-2-2024-\\opentk_tarea#4\\opentk_tarea#4\\controlador\\inputs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|solutionrelative:opentk_tarea#4\\controlador\\inputs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|c:\\users\\german\\source\\repos\\programacion_grafica_sa_-2-2024-\\opentk_tarea#4\\opentk_tarea#4\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|solutionrelative:opentk_tarea#4\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|c:\\users\\german\\source\\repos\\programacion_grafica_sa_-2-2024-\\opentk_tarea#4\\opentk_tarea#4\\controlador\\camera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{381D2C60-FED0-48D2-B104-6ABB1A6F865B}|OpenTK_Tarea#4\\OpenTK_Tarea#4.csproj|solutionrelative:opentk_tarea#4\\controlador\\camera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Escenario.cs",
+              "DocumentMoniker": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Clases Base\\Escenario.cs",
+              "RelativeDocumentMoniker": "OpenTK_Tarea#4\\Clases Base\\Escenario.cs",
+              "ToolTip": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Clases Base\\Escenario.cs",
+              "RelativeToolTip": "OpenTK_Tarea#4\\Clases Base\\Escenario.cs",
+              "ViewState": "AgIAAG0AAAAAAAAAAAAMwIYAAABzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-02T02:03:34.03Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Serializador.cs",
+              "DocumentMoniker": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Clases Base\\Serializador.cs",
+              "RelativeDocumentMoniker": "OpenTK_Tarea#4\\Clases Base\\Serializador.cs",
+              "ToolTip": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Clases Base\\Serializador.cs",
+              "RelativeToolTip": "OpenTK_Tarea#4\\Clases Base\\Serializador.cs",
+              "ViewState": "AgIAAOEAAAAAAAAAAAAcwOkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-02T02:03:30.773Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Objeto.cs",
+              "DocumentMoniker": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Clases Base\\Objeto.cs",
+              "RelativeDocumentMoniker": "OpenTK_Tarea#4\\Clases Base\\Objeto.cs",
+              "ToolTip": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Clases Base\\Objeto.cs",
+              "RelativeToolTip": "OpenTK_Tarea#4\\Clases Base\\Objeto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-02T02:03:39.732Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Poligono.cs",
+              "DocumentMoniker": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Clases Base\\Poligono.cs",
+              "RelativeDocumentMoniker": "OpenTK_Tarea#4\\Clases Base\\Poligono.cs",
+              "ToolTip": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Clases Base\\Poligono.cs",
+              "RelativeToolTip": "OpenTK_Tarea#4\\Clases Base\\Poligono.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-02T02:03:47.328Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DTO.cs",
+              "DocumentMoniker": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Extra\\DTO.cs",
+              "RelativeDocumentMoniker": "OpenTK_Tarea#4\\Extra\\DTO.cs",
+              "ToolTip": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Extra\\DTO.cs",
+              "RelativeToolTip": "OpenTK_Tarea#4\\Extra\\DTO.cs",
+              "ViewState": "AgIAAEkAAAAAAAAAAAAcwCkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-02T03:26:24.019Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Game.cs",
+              "DocumentMoniker": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Game.cs",
+              "RelativeDocumentMoniker": "OpenTK_Tarea#4\\Game.cs",
+              "ToolTip": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Game.cs",
+              "RelativeToolTip": "OpenTK_Tarea#4\\Game.cs",
+              "ViewState": "AgIAADEAAAAAAAAAAAAQwD8AAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-02T02:24:07.829Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Administrador_Animaciones.cs",
+              "DocumentMoniker": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Extra\\Administrador_Animaciones.cs",
+              "RelativeDocumentMoniker": "OpenTK_Tarea#4\\Extra\\Administrador_Animaciones.cs",
+              "ToolTip": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Extra\\Administrador_Animaciones.cs",
+              "RelativeToolTip": "OpenTK_Tarea#4\\Extra\\Administrador_Animaciones.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-04T17:43:50.636Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Administrar_modelos.cs",
+              "DocumentMoniker": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Extra\\Administrar_modelos.cs",
+              "RelativeDocumentMoniker": "OpenTK_Tarea#4\\Extra\\Administrar_modelos.cs",
+              "ToolTip": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Extra\\Administrar_modelos.cs",
+              "RelativeToolTip": "OpenTK_Tarea#4\\Extra\\Administrar_modelos.cs",
+              "ViewState": "AgIAAJcAAAAAAAAAAAAcwAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-02T16:33:46.249Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Animaci\u00F3n.cs",
+              "DocumentMoniker": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Extra\\Animaci\u00F3n.cs",
+              "RelativeDocumentMoniker": "OpenTK_Tarea#4\\Extra\\Animaci\u00F3n.cs",
+              "ToolTip": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Extra\\Animaci\u00F3n.cs",
+              "RelativeToolTip": "OpenTK_Tarea#4\\Extra\\Animaci\u00F3n.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAswEcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-04T17:42:34.999Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Shader.cs",
+              "DocumentMoniker": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Clases Base\\Shader.cs",
+              "RelativeDocumentMoniker": "OpenTK_Tarea#4\\Clases Base\\Shader.cs",
+              "ToolTip": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Clases Base\\Shader.cs",
+              "RelativeToolTip": "OpenTK_Tarea#4\\Clases Base\\Shader.cs",
+              "ViewState": "AgIAAEcAAAAAAAAAAAAswAEAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-02T04:04:14.046Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Parte.cs",
+              "DocumentMoniker": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Clases Base\\Parte.cs",
+              "RelativeDocumentMoniker": "OpenTK_Tarea#4\\Clases Base\\Parte.cs",
+              "ToolTip": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Clases Base\\Parte.cs",
+              "RelativeToolTip": "OpenTK_Tarea#4\\Clases Base\\Parte.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-02T02:03:44.303Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Punto.cs",
+              "DocumentMoniker": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Clases Base\\Punto.cs",
+              "RelativeDocumentMoniker": "OpenTK_Tarea#4\\Clases Base\\Punto.cs",
+              "ToolTip": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Clases Base\\Punto.cs",
+              "RelativeToolTip": "OpenTK_Tarea#4\\Clases Base\\Punto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-02T02:03:50.926Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Renderizaci\u00F3n.cs",
+              "DocumentMoniker": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Clases Base\\Renderizaci\u00F3n.cs",
+              "RelativeDocumentMoniker": "OpenTK_Tarea#4\\Clases Base\\Renderizaci\u00F3n.cs",
+              "ToolTip": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Clases Base\\Renderizaci\u00F3n.cs",
+              "RelativeToolTip": "OpenTK_Tarea#4\\Clases Base\\Renderizaci\u00F3n.cs",
+              "ViewState": "AgIAAGgAAAAAAAAAAAAUwIEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-02T02:03:53.882Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "InterpoTK.cs",
+              "DocumentMoniker": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Extra\\InterpoTK.cs",
+              "RelativeDocumentMoniker": "OpenTK_Tarea#4\\Extra\\InterpoTK.cs",
+              "ToolTip": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Extra\\InterpoTK.cs",
+              "RelativeToolTip": "OpenTK_Tarea#4\\Extra\\InterpoTK.cs",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAYwAgAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-04T17:05:49.094Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Inputs.cs",
+              "DocumentMoniker": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Controlador\\Inputs.cs",
+              "RelativeDocumentMoniker": "OpenTK_Tarea#4\\Controlador\\Inputs.cs",
+              "ToolTip": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Controlador\\Inputs.cs",
+              "RelativeToolTip": "OpenTK_Tarea#4\\Controlador\\Inputs.cs",
+              "ViewState": "AgIAAEIAAAAAAAAAAADwv0YAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-02T02:25:28.32Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Program.cs",
+              "RelativeDocumentMoniker": "OpenTK_Tarea#4\\Program.cs",
+              "ToolTip": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Program.cs",
+              "RelativeToolTip": "OpenTK_Tarea#4\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-02T02:48:57.293Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "camera.cs",
+              "DocumentMoniker": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Controlador\\camera.cs",
+              "RelativeDocumentMoniker": "OpenTK_Tarea#4\\Controlador\\camera.cs",
+              "ToolTip": "C:\\Users\\German\\source\\repos\\Programacion_Grafica_SA_-2-2024-\\OpenTK_Tarea#4\\OpenTK_Tarea#4\\Controlador\\camera.cs",
+              "RelativeToolTip": "OpenTK_Tarea#4\\Controlador\\camera.cs",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAwwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-04T18:08:43.523Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
